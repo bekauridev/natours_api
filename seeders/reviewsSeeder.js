@@ -26,7 +26,6 @@ const reviews = JSON.parse(
 );
 
 // Import data into DB
-
 const importData = async () => {
   try {
     await Review.create(reviews);

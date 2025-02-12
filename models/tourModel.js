@@ -27,15 +27,13 @@ const tourSchema = new mongoose.Schema(
         message: 'Difficulty is either: easy, medium, difficult',
       },
     },
-    rating: {
-      type: Number,
-      default: 4.5,
-    },
     ratingsAverage: {
       type: Number,
       default: 4.5,
       min: [1, 'Rating must be above 1.0 '],
       max: [5, 'Rating must be below 5.0 '],
+      // runs each time when field updated (new value set)
+      set: (val) => Math.round(val * 10) / 10, // 4.66666, 46.6666, 47, 4.7
     },
     ratingsQuantity: {
       type: Number,
@@ -104,6 +102,7 @@ const tourSchema = new mongoose.Schema(
         },
         coordinates: [Number],
         address: String,
+        description: String,
         day: Number,
       },
     ],
@@ -114,6 +113,11 @@ const tourSchema = new mongoose.Schema(
   // virtuals are properties that not saved in database it's like derived state
   { toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
+// sort price ascending (metoba)
+// tourSchema.index({ price: 1 });
+tourSchema.index({ price: 1, ratingsAverage: -1 });
+tourSchema.index({ slug: 1 });
+tourSchema.index({ startLocation: '2dsphere' });
 
 // we use function because we need to access to "this" keyword
 tourSchema.virtual('durationWeeks').get(function () {
@@ -174,11 +178,11 @@ tourSchema.pre(/^find/, function (next) {
 });
 
 // Aggregation middleware
-tourSchema.pre('aggregate', function (next) {
-  this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
-  console.log(this);
-  next();
-});
+// tourSchema.pre('aggregate', function (next) {
+//   this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+//   console.log(this);
+//   next();
+// });
 
 // Collection name
 const Tour = mongoose.model('Tour', tourSchema);
