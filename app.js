@@ -77,6 +77,7 @@ app.use(
     origin: 'http://localhost:3000',
   })
 );
+app.options('*', cors());
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 // 5. **Serving static files**
