@@ -1,3 +1,5 @@
-const app = require('./app');
+const app = require('../app'); // Import the Express app
 
-module.exports = app;
+module.exports = (req, res) => {
+  app(req, res); // Handle requests with Express
+};
