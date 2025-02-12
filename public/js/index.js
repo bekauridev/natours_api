@@ -21,7 +21,7 @@ if (mapElement) {
 
 // Handle Login Form Submission
 if (loginForm) {
-  console.log('loginForm', loginForm);
+  // console.log('loginForm', loginForm);
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     login(email.value, password.value);
@@ -58,7 +58,6 @@ if (userPasswordForm) {
     const password = document.getElementById('password').value;
     const passwordConfirm = document.getElementById('password-confirm').value;
 
-    console.log(currentPassword, password, passwordConfirm);
     await updateSettings(
       { currentPassword, password, passwordConfirm },
       'password'

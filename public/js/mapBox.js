@@ -1,5 +1,3 @@
-console.log('Hello from mapBox.js');
-
 export const displayMap = (locations) => {
   // console.log('Locations:', locations);
 

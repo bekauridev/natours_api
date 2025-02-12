@@ -2,6 +2,7 @@ const path = require('path');
 const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
+const compression = require('compression');
 // security
 const hpp = require('hpp');
 const xss = require('xss-clean');
@@ -75,6 +76,7 @@ app.use(
   })
 );
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
 // 5. **Serving static files**
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -87,6 +89,7 @@ app.use(express.json({ limit: '100kb' })); // Parse JSON request bodies
 // 8. **Data sanitization**
 // - Against NoSQL query injection
 app.use(mongoSanitize());
+
 // - Against XSS
 app.use(xss());
 
@@ -104,26 +107,28 @@ app.use(
   })
 );
 
-// 10. **Custom middleware for debugging or additional functionality**
+// 10. **Compression**
+app.use(compression());
+
+// 11. **Custom middleware for debugging or additional functionality**
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies); // Debug cookies
   next();
 });
 
-// 11. **Route handlers**
+// 12. **Route handlers**
 app.use('/', viewRoutes);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
 
-// 12. **Catch-all for unhandled routes**
+// 13. **Catch-all for unhandled routes**
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-// 13. **Global error handling middleware**
+// 14. **Global error handling middleware**
 app.use(globalErrorHandler);
 
 module.exports = app;

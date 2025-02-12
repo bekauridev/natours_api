@@ -25,8 +25,6 @@ exports.getTour = catchAsyncMiddleware(async (req, res, next) => {
   // if (!tour) {
   //   return next(new AppError('There is no tour with that name', 404));
   // }
-
-  console.log(tour);
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
@@ -54,7 +52,6 @@ exports.getMyTours = catchAsyncMiddleware(async (req, res, next) => {
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: tourIDs });
   const names = tours.map((tour) => tour.name);
-  console.log(names);
 
   res.status(200).render('overview', {
     title: 'My Tours',
@@ -63,7 +60,6 @@ exports.getMyTours = catchAsyncMiddleware(async (req, res, next) => {
 });
 
 exports.updateUserData = catchAsyncMiddleware(async (req, res, next) => {
-  console.log(`updateUserData ${req.user.id}`.bgCyan);
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     {

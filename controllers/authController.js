@@ -132,7 +132,7 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
       req.cookies.jwt,
       process.env.JWT_SECRET
     );
-    console.log(decoded.id);
+    // console.log(decoded.id);
     // 2) Check if user still exists
     const currentUser = await User.findById(decoded.id);
     if (!currentUser) {

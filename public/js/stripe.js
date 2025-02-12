@@ -8,16 +8,13 @@ const stripe = Stripe(
 export const bookTour = async (tourId) => {
   try {
     // 1) Get checkout session from stripe
-    const session = await axios(
-      `http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`
-    );
-    console.log(session);
+    const session = await axios(`/api/v1/bookings/checkout-session/${tourId}`);
+
     // 2) Create checkout form + charge the customer
     await stripe.redirectToCheckout({
       sessionId: session.data.session.id,
     });
   } catch (err) {
-    console.log(err);
     showAlert(
       'An error occurred while trying to book the tour. Please try again later.'
     );

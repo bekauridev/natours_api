@@ -7,7 +7,7 @@ export const updateSettings = async (data, type) => {
     const route = type === 'password' ? 'updatePassword' : 'updateMe';
     const req = await axios({
       method: 'PATCH',
-      url: `http://localhost:3000/api/v1/users/${route}`,
+      url: `/api/v1/users/${route}`,
       data,
       // headers: {
       //   'Content-Type': 'application/json',
