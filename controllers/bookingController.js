@@ -57,16 +57,7 @@ const createBookingCheckout = catchAsync(async (session) => {
 
     const user = userDoc.id;
 
-    // Retrieve line items separately (Stripe does not send them in session object)
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-
-    if (!lineItems.data.length) {
-      console.error('No line items found for session:', session.id);
-      return;
-    }
-
-    const price = lineItems.data[0].price_data.unit_amount / 100;
-
+    const price = session.line_items[0].price_data.unit_amount / 100;
     await Booking.create({ tour, user, price });
   } catch (error) {
     console.error('Error in createBookingCheckout:', error);
