@@ -19,6 +19,7 @@ const userRouter = require('./routes/userRouter');
 const tourRouter = require('./routes/tourRouter');
 const reviewRouter = require('./routes/reviewRouter');
 const bookingRouter = require('./routes/bookingRouter');
+const bookingController = require('./controllers/bookingController');
 
 // Initialize app
 const app = express();
@@ -69,6 +70,12 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 });
 app.use('/api', limiter);
+// Before Body parser, because stripe to work
+app.post(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 
 // 4. **Enable CORS**
 app.use(
