@@ -19,11 +19,9 @@ const createSendToken = (user, statusCode, res) => {
   const cookieOptions = {
     maxAge: +process.env.JWT_COOKIE_EXPIRESIN_IN * 24 * 60 * 60 * 1000,
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    path: '/', // Add this line
+    path: '/', // Path for the cookie
+    secure: process.env.NODE_ENV === 'production', // Automatically set to true in production (when HTTPS is used)
   };
-  // console.log('Set-Cookie:', res.getHeaders()['set-cookie']);
-  // if (process.env.NODE_ENV === 'production') cookieOptions.secure = true;
 
   res.cookie('jwt', token, cookieOptions);
   user.password = undefined;
