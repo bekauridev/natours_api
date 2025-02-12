@@ -66,7 +66,7 @@ const createBookingCheckout = catchAsync(async (session) => {
     }
 
     const price = lineItems.data[0].price_data.unit_amount / 100;
-
+    console.log(tour, user, price)
     await Booking.create({ tour, user, price });
   } catch (error) {
     console.error('Error in createBookingCheckout:', error);
