@@ -74,7 +74,7 @@ app.use('/api', limiter);
 app.use(
   cors({
     credentials: true, // Allow cookies
-    origin: 'http://localhost:3000',
+    origin: 'https://natours-api-9og2.onrender.com/',
   })
 );
 app.options('*', cors());
