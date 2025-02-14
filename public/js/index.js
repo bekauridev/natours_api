@@ -12,7 +12,6 @@ const logoutBtn = document.querySelector('.nav__el--logout');
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
-bookTour;
 // Display Map
 if (mapElement) {
   const locations = JSON.parse(mapElement.dataset.locations);
@@ -24,6 +23,8 @@ if (loginForm) {
   // console.log('loginForm', loginForm);
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
+     
+    document.querySelector('#login-button').textContent = 'Loading...'
     login(email.value, password.value);
   });
 }

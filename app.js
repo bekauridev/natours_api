@@ -23,8 +23,9 @@ const bookingController = require('./controllers/bookingController');
 
 // Initialize app
 const app = express();
+//  1 - number of proxies between user and server 
+app.set('trust proxy', 1)
 
-app.enable('trust proxy');
 
 // Initialize view engine
 app.set('view engine', 'pug');
@@ -82,6 +83,7 @@ app.use(
   cors({
     credentials: true, // Allow cookies
     origin: 'https://natours-api-9og2.onrender.com/',
+ 
   })
 );
 app.options('*', cors());

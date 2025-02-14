@@ -33,9 +33,11 @@ export const logout = async () => {
     });
 
     if (res.data.status === 'success') {
-      location.reload(true);
+   location.href = '/'; // Redirects to home
+      location.reload(true); // Forces reload of the page
     }
   } catch (err) {
     showAlert('error', 'Error logging out! Try again.');
   }
 };
+
