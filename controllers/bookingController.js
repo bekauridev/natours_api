@@ -65,14 +65,13 @@ const createBookingCheckout = catchAsync(async (session) => {
       return;
     }
 
-    const priceData = lineItems.data[0]?.price_data;
+    const price = lineItems.data[0]?.price?.unit_amount / 100;
 
-    if (!priceData) {
-      console.error("❌ price_data is missing:", JSON.stringify(lineItems, null, 2));
+    if (!price) {
+      console.error("❌ Price is missing in line items:", JSON.stringify(lineItems, null, 2));
       return;
     }
 
-    const price = priceData.unit_amount / 100;
     console.log("✅ Booking Details:", { tour, user, price });
 
     await Booking.create({ tour, user, price });
