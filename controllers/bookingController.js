@@ -51,25 +51,33 @@ const createBookingCheckout = catchAsync(async (session) => {
     const userDoc = await User.findOne({ email: session.customer_email });
 
     if (!userDoc) {
-      console.error('User not found for email:', session.customer_email);
+      console.error("❌ User not found for email:", session.customer_email);
       return;
     }
 
     const user = userDoc.id;
 
-    // Retrieve line items separately (Stripe does not send them in session object)
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+    console.log("🔍 Line Items Response:", JSON.stringify(lineItems, null, 2));
 
-    if (!lineItems.data.length) {
-      console.error('No line items found for session:', session.id);
+    if (!lineItems.data || lineItems.data.length === 0) {
+      console.error("❌ No line items found for session:", session.id);
       return;
     }
 
-    const price = lineItems.data[0].price_data.unit_amount / 100;
-    console.log(tour, user, price)
+    const priceData = lineItems.data[0]?.price_data;
+
+    if (!priceData) {
+      console.error("❌ price_data is missing:", JSON.stringify(lineItems, null, 2));
+      return;
+    }
+
+    const price = priceData.unit_amount / 100;
+    console.log("✅ Booking Details:", { tour, user, price });
+
     await Booking.create({ tour, user, price });
   } catch (error) {
-    console.error('Error in createBookingCheckout:', error);
+    console.error("❌ Error in createBookingCheckout:", error);
   }
 });
 
@@ -88,6 +96,8 @@ exports.webhookCheckout = (req, res, next) => {
   }
 
   if (event.type === 'checkout.session.completed') {
+    console.log('🎉 Payment successful, creating booking...');
+    console.log(event.data.object); // Log full session data
     createBookingCheckout(event.data.object);
   }
 
