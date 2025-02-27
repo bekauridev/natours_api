@@ -6,12 +6,14 @@ import { bookTour } from './stripe';
 import colors from 'colors';
 // Dom Elements
 // Log In
+const logInBtn = document.querySelector('#login-button') 
 const loginForm = document.querySelector('.form-login');
 const logInEmail = document.getElementById('login-email');
 const logInPassword = document.getElementById('login-password');
 // Log Out
 const logoutBtn = document.querySelector('.nav__el--logout');
 // Sign Up 
+const signUpBtn =  document.querySelector('#signup-button')
 const signupForm = document.querySelector('.form-signup'); 
 const signUpName = document.querySelector('#signup-name'); 
 const signUpEmail = document.querySelector('#signup-email'); 
@@ -34,8 +36,9 @@ if (loginForm) {
   // console.log('loginForm', loginForm);
   loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
-     
-    document.querySelector('#login-button').textContent = 'Loading...'
+   
+    logInBtn.textContent = 'Loading...';
+    logInBtn.disabled = true;
     login(logInEmail.value, logInPassword.value);
   });
 }
@@ -51,7 +54,9 @@ if (signupForm) {
   signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
      
-    document.querySelector('#signup-button').textContent = 'Loading...'
+    signUpBtn.textContent = 'Loading...';
+    signUpBtn.disabled = true;
+
     signup(signUpName.value, signUpEmail.value, signUpPassword.value, signUpPasswordConfirm.value)
   });
 }
@@ -98,6 +103,7 @@ if (bookBtn) {
   bookBtn.addEventListener('click', (e) => {
     e.preventDefault();
     e.target.textContent = 'Processing...';
+    e.target.disabled = true
     const { tourId } = e.target.dataset;
     if (!tourId) return;
     bookTour(tourId);

@@ -22,12 +22,15 @@ exports.getTour = catchAsyncMiddleware(async (req, res, next) => {
     fields: 'review rating user',
   });
 
+  const isBooked = await Booking.findOne({tour:tour.id})
+  // console.log()
   // if (!tour) {
   //   return next(new AppError('There is no tour with that name', 404));
   // }
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
+    isBooked:!!isBooked
   });
 });
 

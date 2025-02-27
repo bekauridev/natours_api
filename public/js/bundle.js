@@ -14568,12 +14568,14 @@ function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.
 function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // Dom Elements
 // Log In
+var logInBtn = document.querySelector('#login-button');
 var loginForm = document.querySelector('.form-login');
 var logInEmail = document.getElementById('login-email');
 var logInPassword = document.getElementById('login-password');
 // Log Out
 var logoutBtn = document.querySelector('.nav__el--logout');
 // Sign Up 
+var signUpBtn = document.querySelector('#signup-button');
 var signupForm = document.querySelector('.form-signup');
 var signUpName = document.querySelector('#signup-name');
 var signUpEmail = document.querySelector('#signup-email');
@@ -14595,7 +14597,8 @@ if (loginForm) {
   // console.log('loginForm', loginForm);
   loginForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    document.querySelector('#login-button').textContent = 'Loading...';
+    logInBtn.textContent = 'Loading...';
+    logInBtn.disabled = true;
     (0, _login.login)(logInEmail.value, logInPassword.value);
   });
 }
@@ -14610,7 +14613,8 @@ if (signupForm) {
   // console.log('loginForm', loginForm);
   signupForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    document.querySelector('#signup-button').textContent = 'Loading...';
+    signUpBtn.textContent = 'Loading...';
+    signUpBtn.disabled = true;
     (0, _signup.signup)(signUpName.value, signUpEmail.value, signUpPassword.value, signUpPasswordConfirm.value);
   });
 }
@@ -14686,6 +14690,7 @@ if (bookBtn) {
   bookBtn.addEventListener('click', function (e) {
     e.preventDefault();
     e.target.textContent = 'Processing...';
+    e.target.disabled = true;
     var tourId = e.target.dataset.tourId;
     if (!tourId) return;
     (0, _stripe.bookTour)(tourId);
