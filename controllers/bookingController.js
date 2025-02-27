@@ -51,32 +51,32 @@ const createBookingCheckout = catchAsync(async (session) => {
     const userDoc = await User.findOne({ email: session.customer_email });
 
     if (!userDoc) {
-      console.error("❌ User not found for email:", session.customer_email);
+      // console.error("❌ User not found for email:", session.customer_email);
       return;
     }
 
     const user = userDoc.id;
 
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-    console.log("🔍 Line Items Response:", JSON.stringify(lineItems, null, 2));
+    // console.log("🔍 Line Items Response:", JSON.stringify(lineItems, null, 2));
 
     if (!lineItems.data || lineItems.data.length === 0) {
-      console.error("❌ No line items found for session:", session.id);
+      // console.error("❌ No line items found for session:", session.id);
       return;
     }
 
     const price = lineItems.data[0]?.price?.unit_amount / 100;
 
     if (!price) {
-      console.error("❌ Price is missing in line items:", JSON.stringify(lineItems, null, 2));
+      // console.error("❌ Price is missing in line items:", JSON.stringify(lineItems, null, 2));
       return;
     }
 
-    console.log("✅ Booking Details:", { tour, user, price });
+    // console.log("✅ Booking Details:", { tour, user, price });
 
     await Booking.create({ tour, user, price });
   } catch (error) {
-    console.error("❌ Error in createBookingCheckout:", error);
+    // console.error("❌ Error in createBookingCheckout:", error);
   }
 });
 
