@@ -74,7 +74,7 @@ exports.aliasTopTours = (req, res, next) => {
 // handler factory for CRUD operations
 exports.indexTours = handlerFactory.indexDoc(Tour);
 exports.showTour = handlerFactory.showDoc(Tour, {
-  path: 'reviews',
+  path: 'reviews', // Populates reviews
 });
 exports.storeTour = handlerFactory.storeDoc(Tour);
 exports.updateTour = handlerFactory.updateDoc(Tour);

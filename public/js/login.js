@@ -33,8 +33,7 @@ export const logout = async () => {
     });
 
     if (res.data.status === 'success') {
-   location.href = '/'; // Redirects to home
-      location.reload(true); // Forces reload of the page
+      window.location.replace('/'); // Redirects to home
     }
   } catch (err) {
     showAlert('error', 'Error logging out! Try again.');
