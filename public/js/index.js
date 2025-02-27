@@ -1,16 +1,27 @@
 import { login, logout } from './login';
+import { signup } from './signup';
 import { displayMap } from './mapBox';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
 import colors from 'colors';
 // Dom Elements
+// Log In
 const loginForm = document.querySelector('.form-login');
-const mapElement = document.getElementById('map');
-const email = document.getElementById('login-email');
-const password = document.getElementById('login-password');
+const logInEmail = document.getElementById('login-email');
+const logInPassword = document.getElementById('login-password');
+// Log Out
 const logoutBtn = document.querySelector('.nav__el--logout');
+// Sign Up 
+const signupForm = document.querySelector('.form-signup'); 
+const signUpName = document.querySelector('#signup-name'); 
+const signUpEmail = document.querySelector('#signup-email'); 
+const signUpPassword = document.querySelector('#signup-password'); 
+const signUpPasswordConfirm = document.querySelector('#signup-confirm-password');
+// User Update
 const userDataForm = document.querySelector('.form-user-data');
 const userPasswordForm = document.querySelector('.form-user-password');
+
+const mapElement = document.getElementById('map');
 const bookBtn = document.getElementById('book-tour');
 // Display Map
 if (mapElement) {
@@ -25,7 +36,7 @@ if (loginForm) {
     e.preventDefault();
      
     document.querySelector('#login-button').textContent = 'Loading...'
-    login(email.value, password.value);
+    login(logInEmail.value, logInPassword.value);
   });
 }
 
@@ -33,6 +44,18 @@ if (loginForm) {
 if (logoutBtn) {
   logoutBtn.addEventListener('click', logout);
 }
+
+// Handle Sign up form 
+if (signupForm) {
+  // console.log('loginForm', loginForm);
+  signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+     
+    document.querySelector('#signup-button').textContent = 'Loading...'
+    signup(signUpName.value, signUpEmail.value, signUpPassword.value, signUpPasswordConfirm.value)
+  });
+}
+
 
 // Handle User Data Update
 if (userDataForm) {

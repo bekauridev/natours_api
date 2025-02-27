@@ -36,6 +36,11 @@ exports.getLoginForm = catchAsyncMiddleware(async (req, res) => {
     title: 'Log into your account',
   });
 });
+exports.getSignForm = catchAsyncMiddleware(async (req, res) => {
+  res.status(200).render('signup', {
+    title: 'Sign up to create account',
+  });
+});
 
 exports.getAccount = catchAsyncMiddleware(async (req, res) => {
   res.status(200).render('account', {
