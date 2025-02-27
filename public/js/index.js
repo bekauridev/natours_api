@@ -25,6 +25,17 @@ const userPasswordForm = document.querySelector('.form-user-password');
 
 const mapElement = document.getElementById('map');
 const bookBtn = document.getElementById('book-tour');
+
+
+// hamburger menu
+const hamburger = document.querySelector(".hamburger");
+const navRow = document.querySelector(".nav_row");
+// Account menu 
+
+const menuToggle = document.querySelector(".user-view-menu-toggle__button");
+const menuClose = document.querySelector(".user-view__menu__btn-close");
+const userView = document.querySelector(".user-view__menu");
+
 // Display Map
 if (mapElement) {
   const locations = JSON.parse(mapElement.dataset.locations);
@@ -109,3 +120,17 @@ if (bookBtn) {
     bookTour(tourId);
   });
 }
+
+//  Toggle hamburger menu
+  hamburger.addEventListener("click", (e) => {
+      navRow.classList.toggle("active"); 
+  });
+  
+
+  menuToggle.addEventListener("click", (e) => {
+    userView.classList.toggle("active"); 
+  });
+ 
+  menuClose.addEventListener("click", (e) => {
+    userView.classList.toggle("active"); 
+  });

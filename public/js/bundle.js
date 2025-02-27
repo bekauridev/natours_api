@@ -14586,6 +14586,16 @@ var userDataForm = document.querySelector('.form-user-data');
 var userPasswordForm = document.querySelector('.form-user-password');
 var mapElement = document.getElementById('map');
 var bookBtn = document.getElementById('book-tour');
+
+// hamburger menu
+var hamburger = document.querySelector(".hamburger");
+var navRow = document.querySelector(".nav_row");
+// Account menu 
+
+var menuToggle = document.querySelector(".user-view-menu-toggle__button");
+var menuClose = document.querySelector(".user-view__menu__btn-close");
+var userView = document.querySelector(".user-view__menu");
+
 // Display Map
 if (mapElement) {
   var locations = JSON.parse(mapElement.dataset.locations);
@@ -14696,6 +14706,17 @@ if (bookBtn) {
     (0, _stripe.bookTour)(tourId);
   });
 }
+
+//  Toggle hamburger menu
+hamburger.addEventListener("click", function (e) {
+  navRow.classList.toggle("active");
+});
+menuToggle.addEventListener("click", function (e) {
+  userView.classList.toggle("active");
+});
+menuClose.addEventListener("click", function (e) {
+  userView.classList.toggle("active");
+});
 },{"./login":"login.js","./signup":"signup.js","./mapBox":"mapBox.js","./updateSettings":"updateSettings.js","./stripe":"stripe.js","colors":"../../node_modules/colors/lib/index.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

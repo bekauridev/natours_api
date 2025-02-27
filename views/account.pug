@@ -11,6 +11,7 @@ block content
   main.main
     .user-view
       nav.user-view__menu
+        button.user-view__menu__btn-close.btn--toggle &#x58;
         ul.side-nav
           +navItem("#","Settings","settings",true)
           +navItem("/my-tours","My bookings","briefcase")
@@ -27,6 +28,8 @@ block content
               +navItem("#","Manage bookings","briefcase")
 
       .user-view__content
+        .user-view-menu-toggle
+          button.user-view-menu-toggle__button.btn--toggle menu      
         .user-view__form-container
           h2.heading-secondary.ma-bt-md Your account settings
           //- Without API token
