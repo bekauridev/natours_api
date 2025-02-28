@@ -27,7 +27,7 @@ export const getReviews = async (reviewId) => {
   let url;
   url = '/api/v1/reviews';
   if (reviewId) url += `/${reviewId}`;
-  console.log(reviewId);
+
   try {
     const res = await axios({
       method: 'GET',

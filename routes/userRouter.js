@@ -1,5 +1,6 @@
 const express = require('express');
 
+const { setUserIdInParams } = require('../middlewares/filterByUser');
 const userController = require('./../controllers/userController');
 const authController = require('../controllers/authController');
 
@@ -30,7 +31,9 @@ router.patch(
   userController.resizeUserPhoto,
   userController.updateMe
 );
-router.delete('/deleteMe', userController.deleteMe);
+// router.delete('/deleteMe', userController.deleteMe);
+
+router.delete('/deleteMe', setUserIdInParams, userController.destroyUser);
 
 router.use(authController.restrictTo('admin'));
 
@@ -39,10 +42,6 @@ router
   .route('/:id')
   .get(userController.showUser)
   .patch(userController.updateUser)
-  .delete(
-    // authController.protect,
-    // authController.restrictTo('admin', 'lead-guide'),
-    userController.destroyUser
-  );
+  .delete(userController.destroyUser);
 
 module.exports = router;

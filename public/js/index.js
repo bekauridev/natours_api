@@ -179,7 +179,6 @@ if (userDeleteForm) {
       }
 
       if (userName === input) {
-        console.log('✅ Correct username. Account will be deleted.');
         await deleteCurrentAccount();
       } else {
         showAlert('error', 'Incorrect name. Please enter your full username');
@@ -248,9 +247,7 @@ reviewEditIcons.forEach((icon) => {
 
     if (reviewId) {
       try {
-        console.log('Fetching review data for editing...');
         currentReview = await getReviews(reviewId); // Fetch review and store globally
-        console.log(currentReview);
 
         if (currentReview) {
           reviewFeedBack.value = currentReview.review; // Fill feedback input
@@ -278,15 +275,12 @@ reviewForm?.addEventListener('submit', async (e) => {
     reviewBtn.disabled = true;
 
     if (currentReview) {
-      console.log('Updating review...');
       await updateReview(
         currentReview.id,
         reviewFeedBack.value,
         reviewRating.value
       );
     } else {
-      console.log('Creating new review...');
-      console.log(currentReview);
       await addReview(reviewFeedBack.value, reviewRating.value, tourId);
     }
     setTimeout(() => location.reload(), 1000);

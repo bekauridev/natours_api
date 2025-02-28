@@ -12779,24 +12779,23 @@ var signup = exports.signup = /*#__PURE__*/function () {
           });
         case 3:
           res = _context.sent;
-          console.log(res);
           if (res.data.status === 'success') {
             (0, _alert.showAlert)('success', 'Sign Up is successful!');
             window.setTimeout(function () {
               location.assign('/');
             }, 1000);
           }
-          _context.next = 11;
+          _context.next = 10;
           break;
-        case 8:
-          _context.prev = 8;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
           (0, _alert.showAlert)('error', ((_err$response = _context.t0.response) === null || _err$response === void 0 || (_err$response = _err$response.data) === null || _err$response === void 0 ? void 0 : _err$response.message) || 'Something went wrong!');
-        case 11:
+        case 10:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
   return function signup(_x, _x2, _x3, _x4) {
     return _ref.apply(this, arguments);
@@ -13106,22 +13105,20 @@ var deleteCurrentAccount = exports.deleteCurrentAccount = /*#__PURE__*/function 
           });
         case 3:
           res = _context.sent;
-          console.log(res);
           if (res.status === 204) {
             location.assign('/');
           }
-          _context.next = 12;
+          _context.next = 10;
           break;
-        case 8:
-          _context.prev = 8;
+        case 7:
+          _context.prev = 7;
           _context.t0 = _context["catch"](0);
-          console.log(_context.t0);
           (0, _alert.showAlert)('error', 'Error Deleting account Try again.');
-        case 12:
+        case 10:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[0, 8]]);
+    }, _callee, null, [[0, 7]]);
   }));
   return function deleteCurrentAccount() {
     return _ref.apply(this, arguments);
@@ -13244,36 +13241,35 @@ var getReviews = exports.getReviews = /*#__PURE__*/function () {
         case 0:
           url = '/api/v1/reviews';
           if (reviewId) url += "/".concat(reviewId);
-          console.log(reviewId);
-          _context2.prev = 3;
-          _context2.next = 6;
+          _context2.prev = 2;
+          _context2.next = 5;
           return (0, _axios.default)({
             method: 'GET',
             url: url,
             withCredentials: true
           });
-        case 6:
+        case 5:
           res = _context2.sent;
           if (!(res.data.status === 'success')) {
-            _context2.next = 9;
+            _context2.next = 8;
             break;
           }
           return _context2.abrupt("return", res.data.data.doc);
-        case 9:
-          _context2.next = 16;
+        case 8:
+          _context2.next = 15;
           break;
-        case 11:
-          _context2.prev = 11;
-          _context2.t0 = _context2["catch"](3);
+        case 10:
+          _context2.prev = 10;
+          _context2.t0 = _context2["catch"](2);
           // Handle errors
           console.error('Error fetching reviews:', _context2.t0);
           (0, _alert.showAlert)('error', ((_err$response2 = _context2.t0.response) === null || _err$response2 === void 0 || (_err$response2 = _err$response2.data) === null || _err$response2 === void 0 ? void 0 : _err$response2.message) || 'Failed to fetch reviews. Please try again.');
           return _context2.abrupt("return", null);
-        case 16:
+        case 15:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[3, 11]]);
+    }, _callee2, null, [[2, 10]]);
   }));
   return function getReviews(_x5) {
     return _ref2.apply(this, arguments);
@@ -15053,35 +15049,34 @@ if (userDeleteForm) {
             return _context5.abrupt("return");
           case 15:
             if (!(userName === input)) {
-              _context5.next = 21;
+              _context5.next = 20;
               break;
             }
-            console.log('✅ Correct username. Account will be deleted.');
-            _context5.next = 19;
+            _context5.next = 18;
             return (0, _deleteAcc.deleteCurrentAccount)();
-          case 19:
-            _context5.next = 22;
+          case 18:
+            _context5.next = 21;
             break;
-          case 21:
+          case 20:
             (0, _alert.showAlert)('error', 'Incorrect name. Please enter your full username');
-          case 22:
-            _context5.next = 28;
+          case 21:
+            _context5.next = 27;
             break;
-          case 24:
-            _context5.prev = 24;
+          case 23:
+            _context5.prev = 23;
             _context5.t0 = _context5["catch"](1);
             console.error('Error deleting account:', _context5.t0);
             (0, _alert.showAlert)('error', 'Something went wrong. Please try again.');
-          case 28:
-            _context5.prev = 28;
+          case 27:
+            _context5.prev = 27;
             deleteBtn.textContent = 'Delete Account';
             deleteBtn.disabled = false;
-            return _context5.finish(28);
-          case 32:
+            return _context5.finish(27);
+          case 31:
           case "end":
             return _context5.stop();
         }
-      }, _callee5, null, [[1, 24, 28, 32]]);
+      }, _callee5, null, [[1, 23, 27, 31]]);
     }));
     return function (_x5) {
       return _ref5.apply(this, arguments);
@@ -15180,33 +15175,32 @@ reviewEditIcons.forEach(function (icon) {
           case 2:
             toggleModal(); // Open modal
             if (!reviewId) {
-              _context7.next = 16;
+              _context7.next = 14;
               break;
             }
             _context7.prev = 4;
-            console.log('Fetching review data for editing...');
-            _context7.next = 8;
+            _context7.next = 7;
             return (0, _review.getReviews)(reviewId);
-          case 8:
+          case 7:
             currentReview = _context7.sent;
             // Fetch review and store globally
-            console.log(currentReview);
+
             if (currentReview) {
               reviewFeedBack.value = currentReview.review; // Fill feedback input
               reviewRating.value = currentReview.rating; // Fill rating input
               reviewBtn.textContent = 'Update'; // Change button text
             }
-            _context7.next = 16;
+            _context7.next = 14;
             break;
-          case 13:
-            _context7.prev = 13;
+          case 11:
+            _context7.prev = 11;
             _context7.t0 = _context7["catch"](4);
             console.error('Error fetching review:', _context7.t0);
-          case 16:
+          case 14:
           case "end":
             return _context7.stop();
         }
-      }, _callee7, null, [[4, 13]]);
+      }, _callee7, null, [[4, 11]]);
     }));
     return function (_x7) {
       return _ref7.apply(this, arguments);
@@ -15232,42 +15226,39 @@ reviewForm === null || reviewForm === void 0 ? void 0 : reviewForm.addEventListe
           reviewBtn.textContent = 'Loading...';
           reviewBtn.disabled = true;
           if (!currentReview) {
-            _context8.next = 13;
+            _context8.next = 12;
             break;
           }
-          console.log('Updating review...');
-          _context8.next = 11;
+          _context8.next = 10;
           return (0, _review.updateReview)(currentReview.id, reviewFeedBack.value, reviewRating.value);
-        case 11:
-          _context8.next = 17;
+        case 10:
+          _context8.next = 14;
           break;
-        case 13:
-          console.log('Creating new review...');
-          console.log(currentReview);
-          _context8.next = 17;
+        case 12:
+          _context8.next = 14;
           return (0, _review.addReview)(reviewFeedBack.value, reviewRating.value, tourId);
-        case 17:
+        case 14:
           setTimeout(function () {
             return location.reload();
           }, 1000);
-          _context8.next = 23;
+          _context8.next = 20;
           break;
-        case 20:
-          _context8.prev = 20;
+        case 17:
+          _context8.prev = 17;
           _context8.t0 = _context8["catch"](4);
           console.error('Error while saving review:', _context8.t0);
-        case 23:
-          _context8.prev = 23;
+        case 20:
+          _context8.prev = 20;
           reviewBtn.textContent = 'Submit';
           reviewBtn.disabled = false;
           currentReview = null; // Reset after submission
           toggleModal();
-          return _context8.finish(23);
-        case 29:
+          return _context8.finish(20);
+        case 26:
         case "end":
           return _context8.stop();
       }
-    }, _callee8, null, [[4, 20, 23, 29]]);
+    }, _callee8, null, [[4, 17, 20, 26]]);
   }));
   return function (_x8) {
     return _ref8.apply(this, arguments);
@@ -15298,7 +15289,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62450" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54553" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

@@ -184,6 +184,28 @@ tourSchema.pre(/^find/, function (next) {
 //   next();
 // });
 
+// Cascade delete
+tourSchema.pre(
+  'findOneAndDelete',
+  { document: false, query: true },
+  async function (next) {
+    try {
+      const tourId = this.getFilter()._id;
+
+      if (!tourId) {
+        throw new Error('Tour ID not found in query filter.');
+      }
+
+      // Delete all reviews associated with the tour
+      await mongoose.model('Review').deleteMany({ tour: tourId });
+
+      next(); // Proceed with deleting the tour
+    } catch (err) {
+      next(err); // Pass the error to the next middleware
+    }
+  }
+);
+
 // Collection name
 const Tour = mongoose.model('Tour', tourSchema);
 

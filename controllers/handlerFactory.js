@@ -105,30 +105,31 @@ exports.updateDoc = (Model) =>
   });
 
 // delete single document
+
+// Temp this shouldn't allow params
 exports.destroyDoc = (Model) =>
   catchAsync(async (req, res, next) => {
     // Apply the filter based on the request (e.g., logged-in user)
     const filter = Object.entries(req.filter).length ? req.filter : {};
 
-    // Find the document by ID and with the filter, then update it as inactive
-    const doc = await Model.findOneAndDelete(
-      {
-        _id: req.params.id,
-        ...filter,
-      },
-      {
-        active: false,
-      }
-    );
+    // Determine the query based on whether an ID is provided
+    const query = req.params.id
+      ? { _id: req.params.id, ...filter } // Delete by ID
+      : { _id: req.user.id, ...filter }; // Delete the current user
+
+    // Find and delete the document
+
+    const doc = await Model.findOneAndDelete(query);
 
     if (!doc) {
       return next(
         new AppError(
-          `No active document found with id of ${req.params.id}`,
+          `No active document found with the provided criteria.`,
           404
         )
       );
     }
+
     res.status(204).json({
       status: 'success',
       data: null,

@@ -105,5 +105,17 @@ usersSchema.methods.getResetPasswordToken = function () {
   return restToken;
 };
 
+// Cascade delete
+usersSchema.pre(
+  'findOneAndDelete',
+  { document: false, query: true }, // Correct configuration
+  async function (next) {
+    const userId = this.getFilter()._id; // Get the user ID from the query filter
+    await mongoose.model('Booking').deleteMany({ user: userId }); // Delete user's bookings
+    await mongoose.model('Review').deleteMany({ user: userId }); // Delete user's reviews
+    next();
+  }
+);
+
 const User = mongoose.model('User', usersSchema);
 module.exports = User;

@@ -10,10 +10,6 @@ export const getTour = async (slug = null) => {
       url: url,
       withCredentials: true,
     });
-
-    // Log the fetched tours for debugging
-    console.log('Fetched Tours:', res.data.data);
-
     // Return the fetched tours
     return res.data.data;
   } catch (err) {

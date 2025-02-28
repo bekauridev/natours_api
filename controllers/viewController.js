@@ -35,9 +35,19 @@ exports.getTour = catchAsyncMiddleware(async (req, res, next) => {
     ? tour.reviews.some((review) => review.user?._id.toString() === userId)
     : false;
 
-  const sortedReviews = tour.reviews.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const sortedReviews = tour.reviews.sort((a, b) => {
+    const userId = req.user?.id; // Handle case where req.user is null
+
+    // Check if either review has a valid user
+    const isAUserReview = a.user && a.user._id?.toString() === userId;
+    const isBUserReview = b.user && b.user._id?.toString() === userId;
+
+    if (isAUserReview && !isBUserReview) return -1; // Move A up
+    if (!isAUserReview && isBUserReview) return 1; // Move B up
+
+    // If both or neither belong to the user, sort by date (newest first)
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
 
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
@@ -68,7 +78,7 @@ exports.getAccount = catchAsyncMiddleware(async (req, res) => {
 exports.getMyTours = catchAsyncMiddleware(async (req, res, next) => {
   // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
-  console.log(bookings, req.user.id);
+  // console.log(bookings, req.user.id);
   // 2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: tourIDs });
@@ -103,7 +113,7 @@ exports.updateUserData = catchAsyncMiddleware(async (req, res, next) => {
 exports.getMyReviews = catchAsyncMiddleware(async (req, res, next) => {
   // 1) Find all reviews
   const reviews = await Review.find({ user: req.user.id });
-  console.log(reviews, req.user.id);
+  // console.log(reviews, req.user.id);
   // 2) Find tours with the returned IDs
   const tourIDs = reviews.map((el) => el.tour);
   const tours = await Tour.find({ _id: tourIDs });
