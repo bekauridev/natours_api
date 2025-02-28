@@ -66,3 +66,14 @@ block content
               input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
             .form__group.right
               button.btn.btn--small.btn--green.btn--save-password Save password
+
+        .line &nbsp;
+
+        .user-view__form-container  
+          h2.heading-secondary.ma-bt-md Delete your account
+          form.form.form-account-delete
+            .form__group
+              label.form__label(for='password-current') Confirm Account Name
+              input#account-delete-confirm.form__input(type='text',required, placeholder=`${user.name}`)
+            .form__group.right
+              button.btn.btn--small.btn--danger.btn--delete-account delete account
