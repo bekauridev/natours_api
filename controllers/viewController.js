@@ -1,6 +1,7 @@
 const Tour = require('../models/tourModel');
 const User = require('../models/userModel');
 const Booking = require('../models/bookingModel');
+const Review = require('../models/reviewModel');
 const color = require('colors');
 const catchAsyncMiddleware = require('../utils/catchAsyncMiddleware');
 const AppError = require('../utils/AppError');
@@ -22,15 +23,28 @@ exports.getTour = catchAsyncMiddleware(async (req, res, next) => {
     fields: 'review rating user',
   });
 
-  const isBooked = await Booking.findOne({user:req.user.id,tour:tour.id})
-  // console.log()
-  // if (!tour) {
-  //   return next(new AppError('There is no tour with that name', 404));
-  // }
+  const userId = req.user?.id;
+
+  // Check if the user has booked the tour
+  const isBooked = userId
+    ? await Booking.exists({ user: userId, tour: tour._id })
+    : false;
+
+  // Check if the user has reviewed the tour
+  const haveReviewed = userId
+    ? tour.reviews.some((review) => review.user?._id.toString() === userId)
+    : false;
+
+  const sortedReviews = tour.reviews.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+
   res.status(200).render('tour', {
     title: `${tour.name} Tour`,
     tour,
-    isBooked:!!isBooked
+    isBooked,
+    haveReviewed,
+    sortedReviews,
   });
 });
 
@@ -53,9 +67,8 @@ exports.getAccount = catchAsyncMiddleware(async (req, res) => {
 
 exports.getMyTours = catchAsyncMiddleware(async (req, res, next) => {
   // 1) Find all bookings
-
   const bookings = await Booking.find({ user: req.user.id });
-
+  console.log(bookings, req.user.id);
   // 2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: tourIDs });
@@ -85,4 +98,20 @@ exports.updateUserData = catchAsyncMiddleware(async (req, res, next) => {
     user: updatedUser,
   });
   next();
+});
+
+exports.getMyReviews = catchAsyncMiddleware(async (req, res, next) => {
+  // 1) Find all reviews
+  const reviews = await Review.find({ user: req.user.id });
+  console.log(reviews, req.user.id);
+  // 2) Find tours with the returned IDs
+  const tourIDs = reviews.map((el) => el.tour);
+  const tours = await Tour.find({ _id: tourIDs });
+  // const names = tours.map((tour) => tour.name);
+
+  res.status(200).render('reviewOverview', {
+    title: 'My Tours',
+    reviews,
+    tours,
+  });
 });

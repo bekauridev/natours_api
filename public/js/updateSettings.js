@@ -20,6 +20,6 @@ export const updateSettings = async (data, type) => {
     }
   } catch (err) {
     console.error('Error updating settings', err);
-    showAlert('error', err.response.data.message);
+    showAlert('error', err.response?.data?.message || 'Something went wrong!');
   }
 };

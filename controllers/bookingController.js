@@ -95,8 +95,8 @@ exports.webhookCheckout = (req, res, next) => {
   }
 
   if (event.type === 'checkout.session.completed') {
-    console.log('🎉 Payment successful, creating booking...');
-    console.log(event.data.object); // Log full session data
+    // console.log('🎉 Payment successful, creating booking...');
+    // console.log(event.data.object); // Log full session data
     createBookingCheckout(event.data.object);
   }
 

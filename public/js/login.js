@@ -20,7 +20,7 @@ export const login = async (email, password) => {
       }, 1000);
     }
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    showAlert('error', err.response?.data?.message || 'Something went wrong!');
   }
 };
 
@@ -39,4 +39,3 @@ export const logout = async () => {
     showAlert('error', 'Error logging out! Try again.');
   }
 };
-

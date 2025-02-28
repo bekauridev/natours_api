@@ -1,11 +1,13 @@
-import { login, logout } from './login';
 import { signup } from './signup';
-import { deleteCurrentAccount } from './deleteAcc';
-import { showAlert } from './alert';
+import { login, logout } from './login';
 import { getCurrentUser } from './getUser';
-import { displayMap } from './mapBox';
+import { deleteCurrentAccount } from './deleteAcc';
 import { updateSettings } from './updateSettings';
+import { addReview, getReviews, updateReview } from './review';
 import { bookTour } from './stripe';
+
+import { showAlert } from './alert';
+import { displayMap } from './mapBox';
 import colors from 'colors';
 // Dom Elements
 // Log In
@@ -47,6 +49,17 @@ const navRow = document.querySelector('.nav_row');
 const menuToggle = document.querySelector('.user-view-menu-toggle__button');
 const menuClose = document.querySelector('.user-view__menu__btn-close');
 const userView = document.querySelector('.user-view__menu');
+
+// Review
+const openModalBtn = document.querySelector('#open-review-modal-btn');
+const addReviewClose = document.querySelector('.addReview__close');
+const reviewModal = document.querySelector('.addReview-modal');
+const reviewForm = document.querySelector('.form-review');
+const reviewRating = document.querySelector('#review-rating-input');
+const reviewFeedBack = document.querySelector('#review-feedback-input');
+const reviewBtn = document.querySelector('#review-button');
+const reviewEditIcons = document.querySelectorAll('.review-edit-icon'); // Select all edit icons
+const reviewCard = document.querySelector('.reviews__card');
 
 // Display Map
 if (mapElement) {
@@ -201,11 +214,88 @@ if (bookBtn) {
   });
 }
 
+const toggleActiveClass = (element) => element?.classList.toggle('active');
+
 //  Toggle hamburger menu
-hamburger?.addEventListener('click', () => navRow?.classList.toggle('active'));
-menuToggle?.addEventListener('click', () =>
-  userView?.classList.toggle('active')
-);
-menuClose?.addEventListener('click', () =>
-  userView?.classList.toggle('active')
-);
+hamburger?.addEventListener('click', () => toggleActiveClass(navRow));
+
+// Account left side menu
+menuToggle?.addEventListener('click', () => toggleActiveClass(userView));
+menuClose?.addEventListener('click', () => toggleActiveClass(userView));
+
+// Review related
+openModalBtn?.addEventListener('click', toggleModal);
+addReviewClose?.addEventListener('click', toggleModal);
+
+// Get current review ID
+const reviewId = reviewCard?.dataset.reviewid;
+// Get current tour ID
+const tourId = reviewCard?.dataset.tourid;
+
+let currentReview = null; // Store fetched review globally
+
+// Toggle modal visibility
+function toggleModal() {
+  reviewModal?.classList.toggle('active');
+}
+
+// Open modal & pre-fill fields when editing
+reviewEditIcons.forEach((icon) => {
+  icon.addEventListener('click', async (e) => {
+    if (!reviewCard) return;
+
+    toggleModal(); // Open modal
+
+    if (reviewId) {
+      try {
+        console.log('Fetching review data for editing...');
+        currentReview = await getReviews(reviewId); // Fetch review and store globally
+        console.log(currentReview);
+
+        if (currentReview) {
+          reviewFeedBack.value = currentReview.review; // Fill feedback input
+          reviewRating.value = currentReview.rating; // Fill rating input
+          reviewBtn.textContent = 'Update'; // Change button text
+        }
+      } catch (err) {
+        console.error('Error fetching review:', err);
+      }
+    }
+  });
+});
+
+// Handle review form submission (create or update)
+reviewForm?.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  if (!reviewFeedBack.value || !reviewRating.value) {
+    showAlert('error', 'Please fill out all fields!');
+    return;
+  }
+
+  try {
+    reviewBtn.textContent = 'Loading...';
+    reviewBtn.disabled = true;
+
+    if (currentReview) {
+      console.log('Updating review...');
+      await updateReview(
+        currentReview.id,
+        reviewFeedBack.value,
+        reviewRating.value
+      );
+    } else {
+      console.log('Creating new review...');
+      console.log(currentReview);
+      await addReview(reviewFeedBack.value, reviewRating.value, tourId);
+    }
+    setTimeout(() => location.reload(), 1000);
+  } catch (err) {
+    console.error('Error while saving review:', err);
+  } finally {
+    reviewBtn.textContent = 'Submit';
+    reviewBtn.disabled = false;
+    currentReview = null; // Reset after submission
+    toggleModal();
+  }
+});

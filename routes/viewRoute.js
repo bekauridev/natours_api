@@ -11,6 +11,7 @@ router.post(
   viewController.updateUserData
 );
 router.get('/my-tours', authController.protect, viewController.getMyTours);
+router.get('/my-reviews', authController.protect, viewController.getMyReviews);
 
 router.use(authController.isLoggedIn);
 

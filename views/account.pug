@@ -4,18 +4,18 @@ mixin navItem(link,text,icon,active)
    li(class=`${active ? 'side-nav--active' : ""}`)
       a(href=`${link}`)
         svg
-          use(xlink:href=`img/icons.svg#icon-${icon}`)
+          use(xlink:href=`img/icons/icons.svg#icon-${icon}`)
         | #{text}
 
 block content
   main.main
     .user-view
       nav.user-view__menu
-        button.user-view__menu__btn-close.btn--toggle &#x58;
+        button.user-view__menu__btn-close.btn--close &times;
         ul.side-nav
           +navItem("#","Settings","settings",true)
           +navItem("/my-tours","My bookings","briefcase")
-          +navItem("#","My reviews","star")
+          +navItem("/my-reviews","My reviews","star")
           +navItem("#","Billing","credit-card")
 
         - if(user.role === 'admin')
@@ -74,6 +74,6 @@ block content
           form.form.form-account-delete
             .form__group
               label.form__label(for='password-current') Confirm Account Name
-              input#account-delete-confirm.form__input(type='text',required, placeholder=`${user.name}`)
+              input#account-delete-confirm.form__input(name="password-current" type='text',required, placeholder=`${user.name}`)
             .form__group.right
               button.btn.btn--small.btn--danger.btn--delete-account delete account
