@@ -3,7 +3,7 @@ const sharp = require('sharp');
 
 const Tour = require('./../models/tourModel');
 
-const catchAsync = require('../utils/catchAsyncMiddleware');
+const catchAsync = require('../middlewares/catchAsyncMiddleware');
 const handlerFactory = require('./handlerFactory');
 const AppError = require('../utils/AppError');
 

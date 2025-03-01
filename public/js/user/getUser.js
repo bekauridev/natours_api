@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { showAlert } from './alert';
+import { showAlert } from '../utils/alert';
 
 export const getCurrentUser = async () => {
   try {

@@ -1,6 +1,6 @@
 const apiFeatures = require('../utils/apiFeatures');
 const AppError = require('../utils/AppError');
-const catchAsync = require('../utils/catchAsyncMiddleware');
+const catchAsync = require('../middlewares/catchAsyncMiddleware');
 
 // Display all documents
 exports.indexDoc = (Model) =>

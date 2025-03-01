@@ -1,6 +1,6 @@
 import '@babel/polyfill';
 import axios from 'axios';
-import { showAlert } from './alert';
+import { showAlert } from '../utils/alert';
 
 export const signup = async (name, email, password, passwordConfirm) => {
   try {

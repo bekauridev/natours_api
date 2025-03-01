@@ -2,7 +2,7 @@ const multer = require('multer');
 const sharp = require('sharp');
 const User = require('./../models/userModel');
 const AppError = require('../utils/AppError');
-const catchAsync = require('../utils/catchAsyncMiddleware');
+const catchAsync = require('../middlewares/catchAsyncMiddleware');
 const handlerFactory = require('./handlerFactory');
 
 // const multerStorage = multer.diskStorage({

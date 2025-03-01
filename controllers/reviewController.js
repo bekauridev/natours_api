@@ -1,5 +1,5 @@
 const Tour = require('../models/tourModel');
-const catchAsync = require('../utils/catchAsyncMiddleware');
+const catchAsync = require('../middlewares/catchAsyncMiddleware');
 const Review = require('../models/reviewModel');
 const handlerFactory = require('./handlerFactory');
 const AppError = require('../utils/AppError');

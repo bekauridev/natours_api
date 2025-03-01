@@ -1,14 +1,19 @@
-import { signup } from './signup';
-import { login, logout } from './login';
-import { getCurrentUser } from './getUser';
-import { deleteCurrentAccount } from './deleteAcc';
-import { updateSettings } from './updateSettings';
-import { addReview, getReviews, updateReview } from './review';
-import { bookTour } from './stripe';
+// Auth
+import { signup } from './auth/signup';
+import { login, logout } from './auth/login';
 
-import { showAlert } from './alert';
-import { displayMap } from './mapBox';
-import colors from 'colors';
+// User
+import { getCurrentUser } from './user/getUser';
+import { updateSettings } from './user/updateSettings';
+import { deleteCurrentAccount } from './user/deleteAcc';
+// Review
+import { addReview, getReviews, updateReview } from './review/review';
+//Services Stripe & map
+import { bookTour } from './services/stripe';
+import { displayMap } from './services/mapBox';
+
+// utils
+import { showAlert } from './utils/alert';
 // Dom Elements
 // Log In
 const logInBtn = document.querySelector('#login-button');

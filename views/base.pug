@@ -11,12 +11,12 @@ html(lang="en")
           //- Fonts
           link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
           //- Icon
-          link(rel='shortcut icon' type='image/png' href='/img/favicon.png')
+          link(rel='shortcut icon' type='image/png' href='/img/branding/favicon.png')
           title Natours | #{title}
 
     body 
         //- Header
-        include _header
+        include partials/_header
 
 
         //- Content
@@ -24,10 +24,10 @@ html(lang="en")
           h1 This is a placeholder heading 
 
         //- Footer
-        include _footer 
+        include partials/_footer 
         //- script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js")
         //- script(src='/js/mapbox.js')
         //- script(src='/js/login.js')
            //- Stripe
         script(src="https://js.stripe.com/v3/")
-        script(src='/js/bundle.js')
+        script(src='/dist/bundle.js')

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const Email = require('../utils/email');
 const User = require('../models/userModel');
-const catchAsync = require('../utils/catchAsyncMiddleware');
+const catchAsync = require('../middlewares/catchAsyncMiddleware');
 const AppError = require('../utils/AppError');
 const { userInfo } = require('os');
 

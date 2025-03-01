@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { showAlert } from './alert';
+import { showAlert } from '../utils/alert';
 
 const stripe = Stripe(
   'pk_test_51QqFT2IHoJJYIEK1ulwvxt5UJV2SfErSCV6fwlDvatut1c8BAENSXRgDQwE55IWYp3IMSiVGcbg0YB7CBX2H8nGP00fubIKHCc'

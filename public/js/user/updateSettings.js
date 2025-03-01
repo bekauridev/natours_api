@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { showAlert } from './alert';
+import { showAlert } from '../utils/alert';
 
 // type is eigher 'password' or 'data'
 export const updateSettings = async (data, type) => {

@@ -2,3 +2,6 @@
 config.env
 node_modules
 .cache
+/public/overview.html
+/public/tour.html
+/public/dist/

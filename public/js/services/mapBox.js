@@ -24,7 +24,7 @@ export const displayMap = (locations) => {
     const [longitude, latitude] = loc.coordinates; // Adjust as per your data format
 
     var myIcon = L.icon({
-      iconUrl: '../img/pin.png',
+      iconUrl: '../img/icons/pin.png',
       iconSize: [32, 40], // Match the width and height from CSS
       iconAnchor: [16, 40], // Adjust as needed
       popupAnchor: [0, -20],
