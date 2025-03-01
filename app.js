@@ -3,6 +3,8 @@ const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
+const cron = require('node-cron');
+const axios = require('axios');
 // security
 const hpp = require('hpp');
 const xss = require('xss-clean');
@@ -23,9 +25,8 @@ const bookingController = require('./controllers/bookingController');
 
 // Initialize app
 const app = express();
-//  1 - number of proxies between user and server 
-app.set('trust proxy', 1)
-
+//  1 - number of proxies between user and server
+app.set('trust proxy', 1);
 
 // Initialize view engine
 app.set('view engine', 'pug');
@@ -83,7 +84,6 @@ app.use(
   cors({
     credentials: true, // Allow cookies
     origin: 'https://natours-api-9og2.onrender.com/',
- 
   })
 );
 app.options('*', cors());
@@ -135,12 +135,27 @@ app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
 app.use('/api/v1/bookings', bookingRouter);
 
-// 13. **Catch-all for unhandled routes**
+//13. **Cron job to keep the server active**
+cron.schedule('*/10 * * * *', async () => {
+  try {
+    const response = await axios.get('https://natours-api-9og2.onrender.com/');
+    console.log(
+      `[${new Date().toISOString()}] Ping successful: ${response.status}`
+    );
+  } catch (err) {
+    console.error(
+      `[${new Date().toISOString()}] Ping failed: ${
+        err.response?.status || 'No Response'
+      } - ${err.message}`
+    );
+  }
+});
+// 14. **Catch-all for unhandled routes**
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
-// 14. **Global error handling middleware**
+// 15. **Global error handling middleware**
 app.use(globalErrorHandler);
 
 module.exports = app;
