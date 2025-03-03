@@ -113,13 +113,13 @@ exports.getMyReviews = catchAsyncMiddleware(async (req, res, next) => {
   const reviews = await Review.find({ user: req.user.id });
   // console.log(reviews, req.user.id);
   // 2) Find tours with the returned IDs
-  const tourIDs = reviews.map((el) => el.tour);
-  const tours = await Tour.find({ _id: tourIDs });
+  // const tourIDs = reviews.map((el) => el.tour);
+  // const tours = await Tour.find({ _id: tourIDs });
   // const names = tours.map((tour) => tour.name);
 
   res.status(200).render('pages/reviewOverview', {
-    title: 'My Tours',
+    title: 'My Reviews',
     reviews,
-    tours,
+    // tours,
   });
 });

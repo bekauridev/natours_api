@@ -69,6 +69,10 @@ const reviewBtn = document.querySelector('#review-button');
 const deleteReviewBtn = document.querySelector('#deleteReviewBtn');
 const reviewCards = document.querySelectorAll('.reviews__card');
 
+// File Upload
+const photoInput = document.getElementById('photo');
+const uploadStatus = document.getElementById('uploadStatus');
+
 // initialize MicroModal
 MicroModal.init({
   disableScroll: false, //  background scrolling
@@ -343,12 +347,8 @@ hamburger?.addEventListener('click', () => toggleActiveClass(navRow));
 menuToggle?.addEventListener('click', () => toggleActiveClass(userView));
 menuClose?.addEventListener('click', () => toggleActiveClass(userView));
 
-// Test photo upload
-
-document.addEventListener('DOMContentLoaded', () => {
-  const photoInput = document.getElementById('photo');
-  const uploadStatus = document.getElementById('uploadStatus');
-
+// Handle image upload indicator display
+if (photoInput) {
   // Show selected file name
   photoInput.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
@@ -356,4 +356,4 @@ document.addEventListener('DOMContentLoaded', () => {
       uploadStatus.textContent = 'Image uploaded successfully!';
     }
   });
-});
+}

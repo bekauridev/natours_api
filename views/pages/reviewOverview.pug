@@ -4,12 +4,12 @@ include ../includes/modals/_modal
 
 block content
   main.main
-    h2.heading-secondary.ma-bt-lg My Reviews
+    h2.heading-secondary.ma-bt-lg= title
     .card-container
 
-      if reviews.length > 0 && tours.length > 0
+      if reviews.length > 0 
         each review in reviews
-          +reviewCard(review, )
+          +reviewCard(review)
 
       else
         .notFoundContainer
