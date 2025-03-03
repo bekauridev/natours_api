@@ -45,6 +45,10 @@
   .user-view__menu__btn-close {
     display: inline-block;
   }
+
+  .cta__text {
+    margin-bottom: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -58,6 +62,13 @@
     flex-direction: row;
   }
 
+  .form-styles.form-styles-review-modal {
+    width: 40rem;
+  }
+
+  .action-modal__container {
+    width: 45rem;
+  }
   .nav_row.active {
     display: flex;
   }
@@ -190,6 +201,7 @@
 
   .cta {
     padding: 2.5rem 2rem;
+    border-radius: 8px;
   }
 
   .cta__img {
@@ -205,6 +217,13 @@
     text-align: center;
   }
 
+  .form-styles.form-styles-review-modal {
+    width: 30rem;
+  }
+  .action-modal__container {
+    width: 100%;
+  }
+
   .footer__nav {
     flex-direction: column;
     margin-bottom: 1rem;
@@ -212,10 +231,13 @@
   }
 
   .alert {
-    font-size: 1.2rem;
-    padding: 0.8rem 1.6rem;
+    /* padding: 0.8rem 1.6rem; */
     width: 90%;
     max-width: 300px;
+  }
+
+  .notFoundContainer > .row {
+    flex-direction: column;
   }
 }
 
@@ -231,5 +253,12 @@
   .reviews__card {
     width: 25rem;
     padding: 4rem 2rem;
+  }
+
+  .form-styles.form-styles-review-modal {
+    width: 100%;
+  }
+  .action-modal__container {
+    width: 100%;
   }
 }

@@ -7,13 +7,19 @@ import { getCurrentUser } from './user/getUser';
 import { updateSettings } from './user/updateSettings';
 import { deleteCurrentAccount } from './user/deleteAcc';
 // Review
-import { addReview, getReviews, updateReview } from './review/review';
-//Services Stripe & map
-import { bookTour } from './services/stripe';
-import { displayMap } from './services/mapBox';
-
+import {
+  addReview,
+  getReviews,
+  updateReview,
+  deleteReview,
+} from './review/review';
+// Services
+import { bookTour } from './services/stripe'; // Stripe
+import { displayMap } from './services/mapBox'; // map
+import MicroModal from 'micromodal'; // for modals
 // utils
 import { showAlert } from './utils/alert';
+import { toggleActiveClass, uiUpdate } from './utils/helpers';
 // Dom Elements
 // Log In
 const logInBtn = document.querySelector('#login-button');
@@ -56,15 +62,18 @@ const menuClose = document.querySelector('.user-view__menu__btn-close');
 const userView = document.querySelector('.user-view__menu');
 
 // Review
-const openModalBtn = document.querySelector('#open-review-modal-btn');
-const addReviewClose = document.querySelector('.addReview__close');
-const reviewModal = document.querySelector('.addReview-modal');
 const reviewForm = document.querySelector('.form-review');
 const reviewRating = document.querySelector('#review-rating-input');
 const reviewFeedBack = document.querySelector('#review-feedback-input');
 const reviewBtn = document.querySelector('#review-button');
-const reviewEditIcons = document.querySelectorAll('.review-edit-icon'); // Select all edit icons
-const reviewCard = document.querySelector('.reviews__card');
+const deleteReviewBtn = document.querySelector('#deleteReviewBtn');
+const reviewCards = document.querySelectorAll('.reviews__card');
+
+// initialize MicroModal
+MicroModal.init({
+  disableScroll: false, //  background scrolling
+  awaitCloseAnimation: true, // Smooth animation when closing
+});
 
 // Display Map
 if (mapElement) {
@@ -83,7 +92,7 @@ if (loginForm) {
     try {
       await login(logInEmail.value, logInPassword.value);
     } catch (err) {
-      console.error('Login failed:', err);
+      // console.error('Login failed:', err);
     } finally {
       // Reset button after the request is completed (success or error)
       logInBtn.textContent = 'Log In';
@@ -111,7 +120,7 @@ if (signupForm) {
         signUpPasswordConfirm.value
       );
     } catch (err) {
-      console.error('Signup failed:', err);
+      // console.error('Signup failed:', err);
     } finally {
       // Reset button after the request is completed (success or error)
       signUpBtn.disabled = false;
@@ -189,7 +198,7 @@ if (userDeleteForm) {
         showAlert('error', 'Incorrect name. Please enter your full username');
       }
     } catch (err) {
-      console.error('Error deleting account:', err);
+      // console.error('Error deleting account:', err);
       showAlert('error', 'Something went wrong. Please try again.');
     } finally {
       deleteBtn.textContent = 'Delete Account';
@@ -210,7 +219,7 @@ if (bookBtn) {
       if (!tourId) throw new Error('Tour ID not found');
       await bookTour(tourId);
     } catch (err) {
-      console.error('Failed to book the tour!');
+      // console.error('Failed to book the tour!');
     } finally {
       e.target.textContent = 'Book Tour';
       e.target.disabled = false;
@@ -218,55 +227,84 @@ if (bookBtn) {
   });
 }
 
-const toggleActiveClass = (element) => element?.classList.toggle('active');
+// currentReview is defined if review is already created
+let currentReview = null;
 
-//  Toggle hamburger menu
-hamburger?.addEventListener('click', () => toggleActiveClass(navRow));
+const tourId = reviewCards.length ? reviewCards[0].dataset.tourid : null;
 
-// Account left side menu
-menuToggle?.addEventListener('click', () => toggleActiveClass(userView));
-menuClose?.addEventListener('click', () => toggleActiveClass(userView));
+// This Function is changing the state of reviewForm if review is already created
+// review is created or not is handled by _reviewCard.pug
+async function prepareForUpdate(reviewId) {
+  if (!reviewId) return;
 
-// Review related
-openModalBtn?.addEventListener('click', toggleModal);
-addReviewClose?.addEventListener('click', toggleModal);
+  // Form elements (loading)
+  uiUpdate(
+    'loading',
+    [reviewFeedBack, reviewRating, reviewBtn],
+    [reviewBtn],
+    'Update'
+  );
+  try {
+    currentReview = await getReviews(reviewId); // Fetch review
 
-// Get current review ID
-const reviewId = reviewCard?.dataset.reviewid;
-// Get current tour ID
-const tourId = reviewCard?.dataset.tourid;
+    if (currentReview) {
+      uiUpdate(
+        'done',
+        [reviewFeedBack, reviewRating, reviewBtn],
+        [reviewBtn],
+        'Update'
+      );
+      reviewRating.value = currentReview.rating; // Fill rating input
+      reviewFeedBack.value = currentReview.review; // Fill feedback input
+    }
+  } catch (err) {
+    uiUpdate('error', [reviewFeedBack, reviewRating, reviewBtn], [reviewBtn]);
 
-let currentReview = null; // Store fetched review globally
-
-// Toggle modal visibility
-function toggleModal() {
-  reviewModal?.classList.toggle('active');
+    // console.error('Error fetching review:', err);
+    showAlert('error', 'Something went wrong');
+  }
 }
 
-// Open modal & pre-fill fields when editing
-reviewEditIcons.forEach((icon) => {
-  icon.addEventListener('click', async (e) => {
-    if (!reviewCard) return;
+// Function to delete a review
+async function reviewDeleteHandler(reviewId) {
+  if (!reviewId) return;
 
-    toggleModal(); // Open modal
+  // console.log(`Attempting to delete review: ${reviewId}`);
+  uiUpdate('loading', [deleteReviewBtn], [deleteReviewBtn]);
 
-    if (reviewId) {
-      try {
-        currentReview = await getReviews(reviewId); // Fetch review and store globally
+  try {
+    await deleteReview(reviewId);
+  } catch (err) {
+    // console.error('Error deleting review:', err);
+    showAlert('error', 'Error deleting review. Try again.');
+  } finally {
+    uiUpdate('done', [deleteReviewBtn], [deleteReviewBtn], 'Delete');
+    MicroModal.close('deleteReview-modal'); // Close modal
+  }
+}
 
-        if (currentReview) {
-          reviewFeedBack.value = currentReview.review; // Fill feedback input
-          reviewRating.value = currentReview.rating; // Fill rating input
-          reviewBtn.textContent = 'Update'; // Change button text
-        }
-      } catch (err) {
-        console.error('Error fetching review:', err);
-      }
-    }
-  });
+// Handle Review icons click
+document.addEventListener('click', (e) => {
+  const reviewCard = e.target.closest('.reviews__card');
+  if (!reviewCard) return;
+
+  const reviewId = reviewCard.dataset.reviewid;
+
+  // Open modal & pre-fill fields when editing
+  if (e.target.closest('[data-for="editReview"]')) {
+    prepareForUpdate(reviewId);
+  }
+
+  // Handle Delete Review
+  if (e.target.closest('[data-for="deleteReview"]')) {
+    // console.log(`Review ID: ${reviewId} Review Deletion activated`);
+
+    deleteReviewBtn.onclick = () => reviewDeleteHandler(reviewId);
+  }
 });
 
-// Handle review form submission (create or update)
+// Handle review form submission (Create or Update)
+// Review added or edited will be determined by currentReview
 reviewForm?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -276,9 +314,9 @@ reviewForm?.addEventListener('submit', async (e) => {
   }
 
   try {
-    reviewBtn.textContent = 'Loading...';
-    reviewBtn.disabled = true;
+    uiUpdate('loading', [reviewBtn], [reviewBtn]);
 
+    // If review already exists, update it
     if (currentReview) {
       await updateReview(
         currentReview.id,
@@ -286,15 +324,36 @@ reviewForm?.addEventListener('submit', async (e) => {
         reviewRating.value
       );
     } else {
+      // console.log('Adding new review for tour:', tourId);
       await addReview(reviewFeedBack.value, reviewRating.value, tourId);
     }
-    setTimeout(() => location.reload(), 1000);
   } catch (err) {
-    console.error('Error while saving review:', err);
+    // console.error('Error while saving review:', err);
   } finally {
-    reviewBtn.textContent = 'Submit';
-    reviewBtn.disabled = false;
+    uiUpdate('done', [reviewBtn], [reviewBtn]);
     currentReview = null; // Reset after submission
-    toggleModal();
+    MicroModal.close('editReview-modal'); // Close modal
   }
+});
+
+//  Toggle hamburger menu
+hamburger?.addEventListener('click', () => toggleActiveClass(navRow));
+
+// Account left side menu
+menuToggle?.addEventListener('click', () => toggleActiveClass(userView));
+menuClose?.addEventListener('click', () => toggleActiveClass(userView));
+
+// Test photo upload
+
+document.addEventListener('DOMContentLoaded', () => {
+  const photoInput = document.getElementById('photo');
+  const uploadStatus = document.getElementById('uploadStatus');
+
+  // Show selected file name
+  photoInput.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+      // uploadStatus.textContent = `${e.target.files[0].name}`;
+      uploadStatus.textContent = 'Image uploaded successfully!';
+    }
+  });
 });

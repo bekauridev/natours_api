@@ -1,0 +1,8 @@
+mixin modal(id, header)
+  .modal(id=id)
+    .modal__overlay(data-micromodal-close)
+      .modal__container(role="dialog" aria-labelledby="#{id}-title" aria-hidden="true")
+        .modal__content
+          svg.modal__close.icon--close.iconDef--md(aria-label="Close modal" data-micromodal-close)
+            use(xlink:href=`/img/icons/icons.svg#icon-x`)
+          block   

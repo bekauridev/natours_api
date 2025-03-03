@@ -15,7 +15,7 @@ export const getCurrentUser = async () => {
       throw new Error('Failed to fetch user data');
     }
   } catch (err) {
-    console.error('Error fetching current user:', err);
+    // console.error('Error fetching current user:', err);
     showAlert('error', 'Error getting current user');
     return null;
   }

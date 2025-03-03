@@ -1,0 +1,20 @@
+include _modal
+
+mixin action-modal(title, textContent, type, actionBtnId)
+  +modal("deleteReview-modal", "Reviews")
+    .action-modal
+      .action-modal__container
+        // Modal content
+        .action-modal__content
+          // Modal header
+          .action-modal__header
+            h3.action-modal__title(class= type === "warning" ? "danger" : "success")= title
+          
+          // Modal body
+          .action-modal__body
+            each text in textContent
+              p.action-modal__text= text
+
+          // Modal footer
+          .action-modal__footer
+            button.btn.btn--small.btn--danger(id=actionBtnId ? actionBtnId : undefined) Delete Review

@@ -1,0 +1,27 @@
+mixin reviewCard(review, tourId)
+    //-  if current review user name is same as logged in user means user can edit or delete review
+    .reviews__card(
+        data-reviewId=(review.user && review.user.name === (user && user.name) ? review.id : null)
+        data-tourId=tourId
+    )
+
+        .reviews__avatar
+            if user && user.name && review.user && review.user.name === user.name
+                .review-icons-row
+                    .review-edit-icon(data-for='editReview')
+                        .review-icon-tooltip(data-tooltip="Edit Review")
+                            //- Modal is in base.pug
+                            svg.review__edit.iconDef(data-micromodal-trigger="editReview-modal")
+                                use(xlink:href='/img/icons/icons.svg#icon-edit-3')
+                    .review-edit-icon(data-for='deleteReview')
+                        .review-icon-tooltip(data-tooltip="Delete-Review")
+                            svg.review__delete.iconDef.iconDelete(data-micromodal-trigger="deleteReview-modal")
+                                use(xlink:href='/img/icons/icons.svg#icon-trash-2')
+                            //- use(xlink:href='/img/icons/icons.svg#icon-x')
+            img.reviews__avatar-img(src=`/img/users/${review.user ? review.user.photo : 'default.jpg'}`, alt=`${review.user ? review.user.name : 'User'}`)
+            h6.reviews__user #{review.user ? review.user.name : 'Anonymous'}
+        p.reviews__text #{review.review || 'No review provided.'}
+        .reviews__rating
+            each star in [1, 2, 3, 4, 5]
+                svg.reviews__star.iconDef(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                    use(xlink:href='/img/icons/icons.svg#icon-star')

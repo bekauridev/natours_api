@@ -14,7 +14,7 @@ export const getTour = async (slug = null) => {
     return res.data.data;
   } catch (err) {
     // Handle errors
-    console.error('Error fetching tours:', err);
+    // console.error('Error fetching tours:', err);
     showAlert(
       'error',
       err.response?.data?.message || 'Failed to fetch tours. Please try again.'

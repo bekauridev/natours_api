@@ -1,3 +1,5 @@
+include includes/modals/_modal
+include includes/modals/_actionModal
 doctype html
 html(lang="en")
     head
@@ -19,9 +21,15 @@ html(lang="en")
         include partials/_header
 
 
+        //- Modal edit Review
+        +modal("editReview-modal","Reviews")
+          include includes/_editReviewForm
+        //- Inherits _modal  deleteReview-modal
+        +action-modal("Delete Review", [
+          "Are you sure you want to delete this review?"
+        ], 'warning',"deleteReviewBtn")
         //- Content
         block content
-          h1 This is a placeholder heading 
 
         //- Footer
         include partials/_footer 

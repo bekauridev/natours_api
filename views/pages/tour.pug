@@ -1,6 +1,6 @@
 extends ../base
-include ../partials/_reviewCard
-include ../partials/_editReviewModal
+include ../includes/_reviewCard
+
 block append head
     // Leaflet CSS
     link(rel="stylesheet", href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", crossorigin="anonymous")
@@ -75,11 +75,10 @@ block content
             each review in sortedReviews
                 +reviewCard(review, tour.id)
         if isBooked && user && !haveReviewed        
-            button.btn.btn--white#open-review-modal-btn Add Review
-
+            //- Modal is in base.pug
+            button.btn.btn--white(data-micromodal-trigger="editReview-modal") Add Review
         //- Review edit modal
-        +editReviewModal(false)
-
+        //- +editReviewModal(false)
     section.section-cta
         .cta
             .cta__img.cta__img--logo
@@ -88,10 +87,10 @@ block content
             img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='Tour picture 2')
             .cta__content
                 if isBooked
-                    h2.heading-secondary.ma-bt-lg Thank you for your trust!
+                    h2.heading-secondary Thank you for your trust!
                     p.cta__text= `We appreciate your booking for the incredible ${tour.duration}-day tour!`
                 else 
-                    h2.heading-secondary.ma-bt-lg What are you waiting for?
+                    h2.heading-secondary What are you waiting for?
                     p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
 
                 if user

@@ -1,23 +1,21 @@
 extends ../base
-include ../partials/_reviewCard
-include ../partials/_editReviewModal
+include ../includes/_reviewCard
+include ../includes/modals/_modal
 
 block content
   main.main
-    h2.heading-secondary.ma-bt-lg Reviews
+    h2.heading-secondary.ma-bt-lg My Reviews
     .card-container
-      +editReviewModal(true)
 
-      // Check if there are any reviews
       if reviews.length > 0 && tours.length > 0
         each review in reviews
-          +reviewCard(review)     
+          +reviewCard(review, )
+
       else
-        // If no reviews, display the message
         .notFoundContainer
           p.notFoundContainer_message You have no reviewed tour.
           .row
             a(href="/")
-              button.btn.btn--green discover tours
+              button.btn.btn--green Discover Tours
             a(href="/me")
-              button.btn.btn--green Back to profile
+              button.btn.btn--green Back to Profile

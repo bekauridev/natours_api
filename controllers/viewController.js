@@ -6,10 +6,8 @@ const color = require('colors');
 const catchAsyncMiddleware = require('../middlewares/catchAsyncMiddleware');
 const AppError = require('../utils/AppError');
 exports.getOverview = catchAsyncMiddleware(async (req, res) => {
-  // 1) get all data from collection
   const tours = await Tour.find();
-  // 2) Build template
-  //   3) Render that template using tour data
+
   res.status(200).render('pages/overview', {
     title: 'All Tours',
     tours,

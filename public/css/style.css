@@ -30,7 +30,10 @@ html {
 body {
   line-height: 1.6;
   font-weight: 300;
-  font-family: 'Lato', sans-serif;
+  /* font-family: 'Lato', sans-serif; */
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
   color: #777;
   padding: 3rem;
   min-height: 100vh;
@@ -52,20 +55,115 @@ body {
   position: relative;
 }
 
-/* Modal background overlay */
+/*.**************. */
+/*     Modal */
+/*.**************.*/
 .modal {
+  display: none;
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+  z-index: 9999;
 }
 
+.modal[aria-hidden='false'] {
+  display: block;
+}
+.modal__overlay {
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998;
+}
+.modal__container {
+  margin: 1rem;
+}
+.modal__content {
+  position: relative;
+  display: block;
+}
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal__close {
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 88888;
+}
+.modal__title {
+  flex: 1;
+  text-align: center;
+}
+
+/*.************** */
+/* Modal Action */
+
+/* Modal Container */
+.action-modal__container {
+  background: #fff;
+  width: 100%;
+  width: 50rem;
+  overflow: hidden;
+  border-radius: 5px;
+}
+
+/* Modal Header */
+.action-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+.action-modal__title {
+  font-size: 2.2rem;
+  text-transform: capitalize;
+  font-weight: 500;
+  background-clip: text;
+  color: transparent;
+}
+.action-modal__title.success {
+  background-image: linear-gradient(to right, #7dd56f, #51cf66);
+}
+.action-modal__title.danger {
+  background-image: linear-gradient(to right, #ff7730, #eb4d4b);
+}
+
+/* Modal Body */
+.action-modal__body {
+  padding: 16px;
+}
+
+.action-modal__text {
+  font-size: 1.7rem;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+/* Modal Footer */
+.action-modal__footer {
+  display: flex;
+  justify-content: flex-start;
+  padding: 16px;
+  border-top: 1px solid #e5e7eb;
+  background-color: #f9fafb;
+}
+
+/*. ************** */
 .flex {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -100,27 +198,12 @@ body {
   background-color: #e0e0e0;
 }
 
+/*.**********.*/
+/* Alert */
+/*.**********.*/
 /* .alert {
   position: fixed;
-  top: 0;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
-  z-index: 9999;
-  color: #fff;
-  font-size: 1.8rem;
-  font-weight: 400;
-  text-align: center;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  padding: 1.6rem 3rem;
-  -webkit-box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
-  box-shadow: 0 2rem 4rem rgba(0, 0, 0, 0.25);
-} */
-
-.alert {
-  position: fixed;
-  top: 10px; /* Adjusted for better visibility */
+  top: 10px;  
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
@@ -131,8 +214,8 @@ body {
   border-radius: 5px;
   padding: 1.4rem 2.5rem;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
-  max-width: 500px; /* Ensures it doesn’t get too wide */
-  width: 90%; /* Responsive width */
+  max-width: 500px; 
+  width: 90%;  
   transition: all 0.3s ease-in-out;
 }
 
@@ -141,8 +224,51 @@ body {
 }
 .alert--error {
   background-color: #eb4d4b;
+} */
+
+.alert {
+  position: fixed;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 88888;
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 400;
+  text-align: start;
+  border-radius: 5px;
+  padding: 1.4rem 2.5rem;
+  box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  width: 90%;
+  transition: all 0.3s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
 }
 
+.alert--success {
+  background-color: #20bf6b;
+}
+
+.alert--error {
+  background-color: #eb4d4b;
+}
+
+.alert__close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.alert__icon {
+  color: #fff;
+}
+
+/*.************* */
 .heading-secondary {
   font-size: 2.25rem;
   text-transform: uppercase;
@@ -156,6 +282,7 @@ body {
   );
   background-image: linear-gradient(to right, #7dd56f, #28b487);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
   letter-spacing: 0.1rem;
   line-height: 1.3;
@@ -223,11 +350,25 @@ body {
 }
 
 /* Icons */
-.icon-edit {
-  width: 20px;  
-  vertical-align: middle;  
-  filter: brightness(0) saturate(100%) invert(40%) sepia(95%) saturate(800%) hue-rotate(100deg);
+.iconDef {
+  height: 2rem;
+  width: 2rem;
+}
 
+.iconDef--md {
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
+.icon--close {
+  padding: 3px;
+  background-color: #fff;
+  fill: #2e864b;
+  border-radius: 50%;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  box-sizing: content-box;
 }
 
 .btn,
@@ -267,19 +408,6 @@ body {
 .btn:focus {
   outline: none;
   background-color: #2e864b;
-}
-
-.btn--close {
-  display: block;
-  padding: 5px 15px;
-  font-size: 2rem;
-  font-weight: 700;
-  background-color: rgb(228, 228, 228);
-  color: black;
-  border-radius: 50%;
-  outline: 0;
-  border: 0;
-  cursor: pointer;
 }
 
 .btn--white {
@@ -644,7 +772,6 @@ body {
 .section-reviews {
   margin-top: calc(0px - var(--section-rotate));
   padding: calc(5rem + var(--section-rotate)) 1rem;
-  position: relative;
   z-index: 1000;
   background: -webkit-gradient(
     linear,
@@ -679,25 +806,11 @@ body {
   -ms-scroll-snap-type: x mandatory;
   scroll-snap-type: x mandatory;
 }
-.addReview-modal {
-  margin-top: 2rem;
-  display: none;
-}
 
-.addReview-modal.modal{
-  margin-top: 0rem;
-
-  padding-top: 8%;
+/* Order to make sync to modal styles */
+.form-styles.form-styles-review-modal {
+  width: 50rem;
 }
-.addReview-modal.active {
-  display: block;
-}
-.addReview__close {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-}
-
 .reviews__card {
   position: relative;
   width: 30rem;
@@ -725,31 +838,22 @@ body {
   width: 2rem;
 }
 
-/* .review-edit-icon {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-
-  width: 30px;
-  height: 30px;
-} */
-
-.review-edit-icon {
+.review-icons-row {
   position: absolute;
   top: 15px;
   right: 15px;
-  display: inline-block;  
-  cursor: pointer; 
-  transition: transform 0.2s ease, opacity 0.2s ease; / 
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .review-edit-icon:hover {
-  transform: scale(1.1); 
-  opacity: 0.8; 
+  transform: scale(1.1);
+  opacity: 0.8;
 }
-
-.review-edit-icon::after {
-  content: 'Edit Review'; 
+.review-icon-tooltip::after {
+  content: attr(data-tooltip);
   position: absolute;
   top: -30px;
   left: 50%;
@@ -763,6 +867,11 @@ body {
   visibility: hidden;
   transition: opacity 0.2s ease, visibility 0.2s ease;
   white-space: nowrap;
+}
+
+.review-edit-icon:hover .review-icon-tooltip::after {
+  opacity: 1;
+  visibility: visible;
 }
 
 .review-edit-icon:hover::after {
@@ -800,9 +909,15 @@ body {
   display: -ms-flexbox;
   display: flex;
 }
+
+.review__edit {
+  fill: #20bf6b;
+}
+.review__delete {
+  fill: #eb4d4b;
+}
+
 .reviews__star {
-  height: 2rem;
-  width: 2rem;
   margin-right: 1px;
 }
 .reviews__star--active {
@@ -941,6 +1056,7 @@ body {
   top: 10px;
   right: 10px;
 }
+
 .user-view__menu__btn-close {
   display: none;
   position: absolute;
@@ -1322,13 +1438,14 @@ body {
   align-self: center;
 }
 .notFoundContainer {
-  grid-column: 2/3;
+  grid-column: 1/-1;
+  justify-content: center;
+  margin: 0px auto;
   text-align: center;
   border: 1px solid #444;
   border-radius: 3px;
   background-color: #444;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  margin: 40px 0;
   padding: 20px;
 }
 .notFoundContainer_message {
@@ -1370,7 +1487,7 @@ body {
   max-width: 50rem;
   margin: 0 auto;
 }
-/* Log in */
+
 .form-styles {
   position: relative;
   margin: 0 auto;
@@ -1390,7 +1507,6 @@ body {
   padding: 1.25rem 1.75rem;
   border: none;
   width: 100%;
-  background-color: #fff;
   background-color: #f2f2f2;
   border-top: 3px solid transparent;
   border-bottom: 3px solid transparent;
@@ -1402,6 +1518,7 @@ body {
   /* Pseudo element (a visible thing that isn't really in the DOM).
       Also needs -ms- */
 }
+
 .form__input:focus {
   outline: none;
   border-bottom: 3px solid #51cf66;
@@ -1441,6 +1558,7 @@ body {
   margin-right: 2rem;
 }
 
+/* Remove default upload button */
 .form__upload {
   width: 0.1px;
   height: 0.1px;
@@ -1449,7 +1567,6 @@ body {
   position: absolute;
   z-index: -1;
 }
-
 .form__upload:focus + label {
   outline: 3px solid #55c57a;
   outline-offset: 3px;
@@ -1472,4 +1589,12 @@ body {
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
   -webkit-transform: translateY(-2px);
   transform: translateY(-2px);
+}
+
+.form__upload-status {
+  display: inline-block;
+  margin-left: 1rem;
+  font-size: 1.2rem;
+  color: #55c57a;
+  font-style: italic;
 }

@@ -120,7 +120,17 @@ app.use(
 );
 
 // 10. **Compression**
-app.use(compression());
+app.use(
+  compression({
+    threshold: 1024, // Only compress responses larger than 1KB
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        return false; // Skip compression if header exists
+      }
+      return compression.filter(req, res); // Use default filter
+    },
+  })
+);
 
 // 11. **Custom middleware for debugging or additional functionality**
 app.use((req, res, next) => {

@@ -17,9 +17,10 @@ export const addReview = async (review, rating, tour, user) => {
 
     if (res.data.status === 'success') {
       showAlert('success', 'Review added successfully!');
+      setTimeout(() => location.reload(), 1000);
     }
   } catch (err) {
-    showAlert('error', err.response?.data?.message || 'Something went wrong!');
+    showAlert('error', err.response?.data?.message || 'Error adding review!');
   }
 };
 
@@ -40,7 +41,7 @@ export const getReviews = async (reviewId) => {
     }
   } catch (err) {
     // Handle errors
-    console.error('Error fetching reviews:', err);
+    // console.error('Error fetching reviews:', err);
     showAlert(
       'error',
       err.response?.data?.message ||
@@ -60,16 +61,40 @@ export const updateReview = async (reviewId, review, rating) => {
     });
     if (res.data.status === 'success') {
       showAlert('success', 'Review updated successfully!');
+      setTimeout(() => location.reload(), 1000);
     }
     // Return the fetched reviews
   } catch (err) {
     // Handle errors
-    console.error('Error fetching reviews:', err);
+    // console.error('Error updating reviews:', err);
     showAlert(
       'error',
       err.response?.data?.message ||
-        'Failed to fetch reviews. Please try again.'
+        'Failed to updating reviews. Please try again.'
     );
     return null;
+  }
+};
+
+export const deleteReview = async (reviewId, review, rating) => {
+  try {
+    const res = await axios({
+      method: 'DELETE',
+      url: `/api/v1/reviews/${reviewId}`,
+      withCredentials: true,
+    });
+
+    if (res.status === 204) {
+      showAlert('success', 'Review Deleted successfully!');
+      setTimeout(() => location.reload(), 1000);
+    }
+  } catch (err) {
+    // Handle errors
+    // console.error('Error deleting review:', err);
+    showAlert(
+      'error',
+      err.response?.data?.message ||
+        'Failed to deleting reviews. Please try again.'
+    );
   }
 };
