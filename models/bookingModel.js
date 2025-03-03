@@ -15,6 +15,8 @@ const bookingSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Booking must have a price'],
   },
+  cardBrand: String, // card brand
+  cardLast4: String, // 4 digits
   createdAt: {
     type: Date,
     default: Date.now(),
