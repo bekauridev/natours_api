@@ -20,6 +20,7 @@ export const addReview = async (review, rating, tour, user) => {
       setTimeout(() => location.reload(), 1000);
     }
   } catch (err) {
+    // console.log(err);
     showAlert('error', err.response?.data?.message || 'Error adding review!');
   }
 };

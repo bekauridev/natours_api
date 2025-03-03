@@ -73,7 +73,7 @@ block content
     section.section-reviews
         .reviews
             each review in sortedReviews
-                +reviewCard(review, tour.id)
+                +reviewCard(review)
         if isBooked && user && !haveReviewed        
             //- Modal is in base.pug
             button.btn.btn--white(data-micromodal-trigger="editReview-modal") Add Review

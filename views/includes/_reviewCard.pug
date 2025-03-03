@@ -1,8 +1,12 @@
-mixin reviewCard(review, tourId)
+mixin reviewCard(review)
     //-  if current review user name is same as logged in user means user can edit or delete review
+        data-tourId=(review.tour ? (review.tour.id || review.tour) : '')
+        //- data-tourId=(review.tour.id )
+        data-tourId=(Buffer.isBuffer(review.tour) ? review.tour : review.tour.id)
+        
     .reviews__card(
         data-reviewId=(review.user && review.user.name === (user && user.name) ? review.id : null)
-        data-tourId=tourId
+        data-tourId=(is_reviewPage ? review.tour.id : review.tour)
     )
 
         .reviews__avatar
@@ -13,11 +17,18 @@ mixin reviewCard(review, tourId)
                             //- Modal is in base.pug
                             svg.review__edit.iconDef(data-micromodal-trigger="editReview-modal")
                                 use(xlink:href='/img/icons/icons.svg#icon-edit-3')
+
                     .review-edit-icon(data-for='deleteReview')
-                        .review-icon-tooltip(data-tooltip="Delete-Review")
+                        .review-icon-tooltip(data-tooltip="Delete Review")
                             svg.review__delete.iconDef.iconDelete(data-micromodal-trigger="deleteReview-modal")
                                 use(xlink:href='/img/icons/icons.svg#icon-trash-2')
-                            //- use(xlink:href='/img/icons/icons.svg#icon-x')
+                    if is_reviewPage && review.tour.slug
+                        .review-edit-icon
+                            .review-icon-tooltip(data-tooltip="See Tour Details")
+                                a(href=`/tour/${review.tour.slug}`)
+                                    svg.review__edit.iconDef
+                                        use(xlink:href='/img/icons/icons.svg#icon-external-link')
+    
             img.reviews__avatar-img(src=`/img/users/${review.user ? review.user.photo : 'default.jpg'}`, alt=`${review.user ? review.user.name : 'User'}`)
             h6.reviews__user #{review.user ? review.user.name : 'Anonymous'}
         p.reviews__text #{review.review || 'No review provided.'}

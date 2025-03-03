@@ -328,6 +328,7 @@ reviewForm?.addEventListener('submit', async (e) => {
         reviewRating.value
       );
     } else {
+      // console.log(reviewFeedBack.value, reviewRating.value);
       // console.log('Adding new review for tour:', tourId);
       await addReview(reviewFeedBack.value, reviewRating.value, tourId);
     }
