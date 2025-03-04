@@ -48,13 +48,14 @@ block content
                 h2.heading-secondary.ma-bt-lg Your tour guides
 
                 each guide in tour.guides
-                    .overview-box__detail
+                    .overview-box__detail(class=(guide.name === user.name ? 'current-guide' : ''))
                         img.overview-box__img(src=`/img/users/${guide.photo}`, alt=`${guide.name}`)
-                        - if (guide.role === 'lead-guide')
-                            span.overview-box__label Lead guide
-                        - if (guide.role === 'guide')
-                            span.overview-box__label Tour guide
-                        span.overview-box__text= guide.name
+                        a(href=`${guide.name === user.name ? '/me' : ""}`) 
+                            - if (guide.role === 'lead-guide')
+                                span.overview-box__label Lead guide
+                            - if (guide.role === 'guide')
+                                span.overview-box__label Tour guide
+                            span.overview-box__text= guide.name
 
         .description-box
             h2.heading-secondary.ma-bt-lg= `About ${tour.name} tour`
@@ -74,30 +75,31 @@ block content
         .reviews
             each review in sortedReviews
                 +reviewCard(review)
-        if isBooked && user && !haveReviewed        
+        if isBooked && user && !haveReviewed && !isGuide
             //- Modal is in base.pug
             button.btn.btn--white.review-add-btn(data-micromodal-trigger="editReview-modal") Add Review
         //- Review edit modal
         //- +editReviewModal(false)
-    section.section-cta
-        .cta
-            .cta__img.cta__img--logo
-                img(src='/img/branding/logo-white.png', alt='Natours logo')
-            img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='Tour picture 1')
-            img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='Tour picture 2')
-            .cta__content
-                if isBooked
-                    h2.heading-secondary Thank you for your trust!
-                    p.cta__text= `We appreciate your booking for the incredible ${tour.duration}-day tour!`
-                else 
-                    h2.heading-secondary What are you waiting for?
-                    p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
-
-                if user
+    if !isGuide
+        section.section-cta
+            .cta
+                .cta__img.cta__img--logo
+                    img(src='/img/branding/logo-white.png', alt='Natours logo')
+                img.cta__img.cta__img--1(src=`/img/tours/${tour.images[1]}`, alt='Tour picture 1')
+                img.cta__img.cta__img--2(src=`/img/tours/${tour.images[2]}`, alt='Tour picture 2')
+                .cta__content
                     if isBooked
-                        a(href="/my-tours")
-                            button.btn.btn--green.span-all-rows View My bookings
+                        h2.heading-secondary Thank you for your trust!
+                        p.cta__text= `We appreciate your booking for the incredible ${tour.duration}-day tour!`
                     else 
-                        button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
-                else
-                    a.btn.btn--green.span-all-rows(href='/login') Log in to book tour
+                        h2.heading-secondary What are you waiting for?
+                        p.cta__text= `${tour.duration} days. 1 adventure. Infinite memories. Make it yours today!`
+
+                    if user
+                        if isBooked
+                            a(href="/my-tours")
+                                button.btn.btn--green.span-all-rows View My bookings
+                        else 
+                            button.btn.btn--green.span-all-rows#book-tour(data-tour-id=`${tour.id}`) Book tour now!
+                    else
+                        a.btn.btn--green.span-all-rows(href='/login') Log in to book tour

@@ -4,6 +4,7 @@ const Booking = require('../models/bookingModel');
 const Review = require('../models/reviewModel');
 const catchAsyncMiddleware = require('../middlewares/catchAsyncMiddleware');
 const AppError = require('../utils/AppError');
+const color = require('colors');
 exports.getOverview = catchAsyncMiddleware(async (req, res) => {
   const tours = await Tour.find();
 
@@ -22,6 +23,13 @@ exports.getTour = catchAsyncMiddleware(async (req, res) => {
 
   const userId = req.user?.id;
 
+  let isGuide = false;
+
+  if (req.user.role === 'guide' || req.user.role === 'lead-guide') {
+    isGuide = true;
+  } else {
+    isGuide = tour.guides.some((el) => el.name === req.user.name);
+  }
   // Check if the user has booked the tour
   const isBooked = userId
     ? await Booking.exists({ user: userId, tour: tour._id })
@@ -49,6 +57,7 @@ exports.getTour = catchAsyncMiddleware(async (req, res) => {
     title: `${tour.name} Tour`,
     tour,
     isBooked,
+    isGuide,
     haveReviewed,
     sortedReviews,
   });
