@@ -1,7 +1,7 @@
 mixin reviewCard(review)
     .reviews__card(
         data-reviewId=(review.user && user && review.user.name === user.name ? review.id : null)
-        data-tourId=(is_reviewPage && review.tour ? review.tour.id : null)
+        data-tourId=(review.tour ? (is_reviewPage ? review.tour.id : review.tour) : null)
     )
         .reviews__avatar
             if user && user.name && review.user && review.user.name === user.name
