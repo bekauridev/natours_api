@@ -1,0 +1,23 @@
+extends ../base
+
+block content
+  div.main
+    h2.heading-secondary.ma-bt-lg= title
+    .card-container
+      each booking in bookings
+        // Check if booking.tour exists before trying to access its properties
+        if booking.tour
+          a.booking-card-link(href=`/tour/${booking.tour.slug}`)
+            .booking-card 
+              .card-header
+                img.card-icon(src=`img/icons/cardBrands/${booking.cardBrand ? booking.cardBrand.toLowerCase() : 'default'}.svg` alt=booking.cardBrand)
+                span.card-brand= booking.cardBrand
+              .card-body
+                h3.product-name= booking.tour.name
+                p.price $#{booking.price}
+                p.card-info Card: ****#{booking.cardLast4}
+                - const date = new Date(booking.createdAt).toLocaleDateString('en-US')
+                p.booking-date= date
+        else
+          // Handle case where tour is null or missing
+          p No tour available for this booking

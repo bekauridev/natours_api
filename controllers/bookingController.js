@@ -45,41 +45,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   res.status(200).json({ status: 'success', session });
 });
 
-// const createBookingCheckout = catchAsync(async (session) => {
-//   try {
-//     const tour = session.client_reference_id;
-//     const userDoc = await User.findOne({ email: session.customer_email });
-
-//     if (!userDoc) {
-//       // console.error("❌ User not found for email:", session.customer_email);
-//       return;
-//     }
-
-//     const user = userDoc.id;
-
-//     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
-//     // console.log("🔍 Line Items Response:", JSON.stringify(lineItems, null, 2));
-
-//     if (!lineItems.data || lineItems.data.length === 0) {
-//       // console.error("❌ No line items found for session:", session.id);
-//       return;
-//     }
-
-//     const price = lineItems.data[0]?.price?.unit_amount / 100;
-
-//     if (!price) {
-//       // console.error("❌ Price is missing in line items:", JSON.stringify(lineItems, null, 2));
-//       return;
-//     }
-
-//     // console.log("✅ Booking Details:", { tour, user, price });
-
-//     await Booking.create({ tour, user, price });
-//   } catch (error) {
-//     // console.error("❌ Error in createBookingCheckout:", error);
-//   }
-// });
-
 const createBookingCheckout = catchAsync(async (session) => {
   try {
     const tour = session.client_reference_id;
@@ -107,19 +72,17 @@ const createBookingCheckout = catchAsync(async (session) => {
     const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
 
     if (!lineItems.data || lineItems.data.length === 0) {
-      console.error('❌ No line items found for session:', session.id);
+      // console.error('❌ No line items found for session:', session.id);
       return;
     }
 
     const price = lineItems.data[0]?.price?.unit_amount / 100;
 
-    if (!price) {
-      console.error(
-        '❌ Price is missing in line items:',
-        JSON.stringify(lineItems, null, 2)
-      );
-      return;
-    }
+    if (!price) return;
+    // console.error(
+    //   '❌ Price is missing in line items:',
+    //   JSON.stringify(lineItems, null, 2)
+    // );
 
     // Create booking with card details
     await Booking.create({
@@ -130,15 +93,15 @@ const createBookingCheckout = catchAsync(async (session) => {
       cardLast4, // Add last 4 digits to the booking
     });
 
-    console.log('✅ Booking created with card details:', {
-      tour,
-      user,
-      price,
-      cardBrand,
-      cardLast4,
-    });
+    // console.log('✅ Booking created with card details:', {
+    //   tour,
+    //   user,
+    //   price,
+    //   cardBrand,
+    //   cardLast4,
+    // });
   } catch (error) {
-    console.error('❌ Error in createBookingCheckout:', error);
+    // console.error('❌ Error in createBookingCheckout:', error);
   }
 });
 

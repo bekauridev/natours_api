@@ -12,6 +12,7 @@ router.post(
 );
 router.get('/my-tours', authController.protect, viewController.getMyTours);
 router.get('/my-reviews', authController.protect, viewController.getMyReviews);
+router.get('/payments', authController.protect, viewController.getMyPayments);
 
 router.use(authController.isLoggedIn);
 

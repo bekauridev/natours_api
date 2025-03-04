@@ -198,6 +198,10 @@ body {
   background-color: #e0e0e0;
 }
 
+.line--red {
+  background-color: #eb4e4ba8;
+}
+
 /*.**********.*/
 /* Alert */
 /*.**********.*/
@@ -1050,6 +1054,10 @@ body {
 .user-view__menu.active {
   display: block;
 }
+
+.user-view__form-title {
+  font-size: 2.25rem;
+}
 .user-view-menu-toggle__button {
   display: none;
   position: absolute;
@@ -1597,4 +1605,82 @@ body {
   font-size: 1.2rem;
   color: #55c57a;
   font-style: italic;
+}
+
+/*.***************.*/
+/*  Payments Page */
+/*.***************.*/
+
+/* Individual Booking Card */
+.booking-card {
+  width: 280px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: left;
+  transition: transform 0.3s ease-in-out;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.booking-card-link {
+  display: block;
+  text-decoration: none;
+}
+
+.booking-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Card Header */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.card-icon {
+  width: 40px;
+  height: auto;
+}
+
+.card-brand {
+  font-size: 18px;
+  font-weight: bold;
+  color: #20bf6b;
+  text-transform: uppercase;
+}
+
+.product-name {
+  position: relative;
+  display: inline-block; /* Make sure it's inline to respect the width of the text */
+  font-size: 1.8rem;
+  transition: color 0.3s ease;
+  color: #444;
+  font-weight: 500;
+}
+
+.booking-card:hover .product-name {
+  text-decoration: underline;
+  color: #007bff; /* Change text color on hover */
+}
+
+.price {
+  font-size: 18px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.card-info {
+  font-size: 14px;
+  color: #555;
+  font-weight: 400;
+}
+
+.booking-date {
+  font-size: 14px;
+  color: #777;
+  font-weight: 400;
 }

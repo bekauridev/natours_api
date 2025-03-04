@@ -13,7 +13,7 @@ exports.getOverview = catchAsyncMiddleware(async (req, res) => {
   });
 });
 
-exports.getTour = catchAsyncMiddleware(async (req, res, next) => {
+exports.getTour = catchAsyncMiddleware(async (req, res) => {
   const { slug } = req.params;
   const tour = await Tour.findOne({ slug: slug }).populate({
     path: 'reviews',
@@ -71,7 +71,7 @@ exports.getAccount = catchAsyncMiddleware(async (req, res) => {
   });
 });
 
-exports.getMyTours = catchAsyncMiddleware(async (req, res, next) => {
+exports.getMyTours = catchAsyncMiddleware(async (req, res) => {
   // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
   // console.log(bookings, req.user.id);
@@ -84,7 +84,7 @@ exports.getMyTours = catchAsyncMiddleware(async (req, res, next) => {
   });
 });
 
-exports.updateUserData = catchAsyncMiddleware(async (req, res, next) => {
+exports.updateUserData = catchAsyncMiddleware(async (req, res) => {
   const updatedUser = await User.findByIdAndUpdate(
     req.user.id,
     {
@@ -101,10 +101,9 @@ exports.updateUserData = catchAsyncMiddleware(async (req, res, next) => {
     title: 'Your account',
     user: updatedUser,
   });
-  next();
 });
 
-exports.getMyReviews = catchAsyncMiddleware(async (req, res, next) => {
+exports.getMyReviews = catchAsyncMiddleware(async (req, res) => {
   // 1) Find all reviews
   const reviews = await Review.find({ user: req.user.id })
     .populate({
@@ -117,5 +116,20 @@ exports.getMyReviews = catchAsyncMiddleware(async (req, res, next) => {
     title: 'My Reviews',
     reviews,
     is_reviewPage,
+  });
+});
+
+exports.getMyPayments = catchAsyncMiddleware(async (req, res) => {
+  const bookings = await Booking.find({ user: req.user.id });
+  // const bookings = await Booking.find({ user: req.user.id }).populate({
+  //   path: 'tour',
+  //   select: 'name slug',
+  // });
+
+  console.log('Bookings with populated tours:', bookings); // Check the populated bookings data
+
+  res.status(200).render('pages/payments', {
+    title: 'My Payments',
+    bookings,
   });
 });

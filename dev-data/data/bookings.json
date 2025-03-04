@@ -1,0 +1,26 @@
+[
+  {
+    "tour": "5c88fa8cf4afda39709c295a",
+    "user": "5c8a1e1a2f8fb814b56fa182",
+    "price": 1300,
+    "cardBrand": "mastercard",
+    "cardLast4": "1234",
+    "createdAt": "2025-03-05T14:11:21.987Z"
+  },
+  {
+    "tour": "5c88fa8cf4afda39709c2961",
+    "user": "5c8a1e1a2f8fb814b56fa182",
+    "price": 945,
+    "cardBrand": "discover",
+    "cardLast4": "9876",
+    "createdAt": "2025-03-06T11:45:30.567Z"
+  },
+  {
+    "tour": "5c88fa8cf4afda39709c295d",
+    "user": "5c8a1e1a2f8fb814b56fa182",
+    "price": 1200,
+    "cardBrand": "JCB",
+    "cardLast4": "9846",
+    "createdAt": "2025-02-06T11:45:30.567Z"
+  }
+]
