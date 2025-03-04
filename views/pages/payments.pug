@@ -4,20 +4,38 @@ block content
   div.main
     h2.heading-secondary.ma-bt-lg= title
     .card-container
-      each booking in bookings
-        // Check if booking.tour exists before trying to access its properties
-        if booking.tour
-          a.booking-card-link(href=`/tour/${booking.tour.slug}`)
-            .booking-card 
-              .card-header
-                img.card-icon(src=`img/icons/cardBrands/${booking.cardBrand ? booking.cardBrand.toLowerCase() : 'default'}.svg` alt=booking.cardBrand)
-                span.card-brand= booking.cardBrand
-              .card-body
-                h3.product-name= booking.tour.name
-                p.price $#{booking.price}
-                p.card-info Card: ****#{booking.cardLast4}
+      if bookings.length > 0
+        each booking in bookings
+          if booking.tour
+              .payment-card 
+                a.payment-card-link(href=`/tour/${booking.tour.slug}`)
+                  .payment-card-header
+                    img.payment-card-icon(src=`img/icons/cardBrands/${booking.cardBrand ? booking.cardBrand.toLowerCase() : 'default'}.svg` alt=booking.cardBrand)
+                    span.payment-card-brand= booking.cardBrand
+                  .payment-card-body
+                    h3.payment-product-name= booking.tour.name
+                    p.payment-price $#{booking.price}
+                    p.payment-card-info Card: ****#{booking.cardLast4}
+                    - const date = new Date(booking.createdAt).toLocaleDateString('en-US')
+                    p.payment-date= date
+          else
+            // Case when the tour is missing
+            .payment-card.missing-tour
+              .payment-card-header
+                img.payment-card-icon(src=`img/icons/cardBrands/${booking.cardBrand ? booking.cardBrand.toLowerCase() : 'default'}.svg` alt=booking.cardBrand)
+                span.payment-card-brand= booking.cardBrand
+              .payment-card-body
+                h3.payment-product-name.missing-tour-title Unknown Tour
+                p.payment-price $#{booking.price}
+                p.payment-card-info Card: ****#{booking.cardLast4}
                 - const date = new Date(booking.createdAt).toLocaleDateString('en-US')
-                p.booking-date= date
-        else
-          // Handle case where tour is null or missing
-          p No tour available for this booking
+                p.payment-date= date
+                button.contact-support-btn Contact Support
+      else
+         div.notFoundContainer
+          p.notFoundContainer_message You have no payment history.
+          div.row
+            a(href="/")
+            button.btn.btn--green discover tours
+            a(href="/me")
+            button.btn.btn--green Back to profile

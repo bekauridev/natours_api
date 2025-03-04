@@ -74,7 +74,6 @@ exports.getAccount = catchAsyncMiddleware(async (req, res) => {
 exports.getMyTours = catchAsyncMiddleware(async (req, res) => {
   // 1) Find all bookings
   const bookings = await Booking.find({ user: req.user.id });
-  // console.log(bookings, req.user.id);
   // 2) Find tours with the returned IDs
   const tourIDs = bookings.map((el) => el.tour);
   const tours = await Tour.find({ _id: tourIDs });
@@ -121,12 +120,6 @@ exports.getMyReviews = catchAsyncMiddleware(async (req, res) => {
 
 exports.getMyPayments = catchAsyncMiddleware(async (req, res) => {
   const bookings = await Booking.find({ user: req.user.id });
-  // const bookings = await Booking.find({ user: req.user.id }).populate({
-  //   path: 'tour',
-  //   select: 'name slug',
-  // });
-
-  console.log('Bookings with populated tours:', bookings); // Check the populated bookings data
 
   res.status(200).render('pages/payments', {
     title: 'My Payments',

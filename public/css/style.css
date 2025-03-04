@@ -801,7 +801,7 @@ body {
 
 .reviews {
   padding: 5rem 0;
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
   display: grid;
   grid-column-gap: 6rem;
   grid-auto-flow: column;
@@ -814,6 +814,10 @@ body {
 /* Order to make sync to modal styles */
 .form-styles.form-styles-review-modal {
   width: 50rem;
+}
+.review-add-btn {
+  display: block;
+  margin: 0 auto;
 }
 .reviews__card {
   position: relative;
@@ -1611,8 +1615,16 @@ body {
 /*  Payments Page */
 /*.***************.*/
 
-/* Individual Booking Card */
-.booking-card {
+/* Container */
+/* .payments-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+} */
+
+/* Individual Payment Card */
+.payment-card {
   width: 280px;
   background: white;
   border-radius: 10px;
@@ -1620,67 +1632,103 @@ body {
   padding: 20px;
   text-align: left;
   transition: transform 0.3s ease-in-out;
-  margin: 0 auto;
   cursor: pointer;
+  justify-self: center;
+  align-self: center;
 }
 
-.booking-card-link {
+.payment-card-link {
   display: block;
   text-decoration: none;
 }
 
-.booking-card:hover {
+.payment-card:hover {
   transform: translateY(-5px);
 }
 
 /* Card Header */
-.card-header {
+.payment-card-header {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 15px;
 }
 
-.card-icon {
+.payment-card-icon {
   width: 40px;
   height: auto;
 }
 
-.card-brand {
+.payment-card-brand {
   font-size: 18px;
   font-weight: bold;
   color: #20bf6b;
   text-transform: uppercase;
 }
 
-.product-name {
+/* Card Body */
+.payment-product-name {
   position: relative;
-  display: inline-block; /* Make sure it's inline to respect the width of the text */
+  display: inline-block;
   font-size: 1.8rem;
   transition: color 0.3s ease;
   color: #444;
   font-weight: 500;
 }
 
-.booking-card:hover .product-name {
+.payment-card:hover .payment-product-name {
   text-decoration: underline;
-  color: #007bff; /* Change text color on hover */
+  color: #007bff;
 }
 
-.price {
+.payment-price {
   font-size: 18px;
   color: #28a745;
   font-weight: 500;
 }
 
-.card-info {
+.payment-card-info {
   font-size: 14px;
   color: #555;
   font-weight: 400;
 }
 
-.booking-date {
+.payment-date {
   font-size: 14px;
   color: #777;
   font-weight: 400;
+}
+
+/* Missing Tour Case */
+.missing-tour {
+  background: #ffecec;
+  border: 1px solid #ff6b6b;
+}
+
+.missing-tour-title {
+  color: #ff6b6b;
+}
+
+.payment-card.missing-tour:hover .payment-product-name {
+  text-decoration: underline;
+  color: #ff6b6b;
+}
+
+/* Contact Support Button */
+.contact-support-btn {
+  display: block;
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.contact-support-btn:hover {
+  background: #e63946;
 }

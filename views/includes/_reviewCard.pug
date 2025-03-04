@@ -1,14 +1,8 @@
 mixin reviewCard(review)
-    //-  if current review user name is same as logged in user means user can edit or delete review
-        data-tourId=(review.tour ? (review.tour.id || review.tour) : '')
-        //- data-tourId=(review.tour.id )
-        data-tourId=(Buffer.isBuffer(review.tour) ? review.tour : review.tour.id)
-        
     .reviews__card(
-        data-reviewId=(review.user && review.user.name === (user && user.name) ? review.id : null)
-        data-tourId=(is_reviewPage ? review.tour.id : review.tour)
+        data-reviewId=(review.user && user && review.user.name === user.name ? review.id : null)
+        data-tourId=(is_reviewPage && review.tour ? review.tour.id : null)
     )
-
         .reviews__avatar
             if user && user.name && review.user && review.user.name === user.name
                 .review-icons-row
@@ -22,16 +16,21 @@ mixin reviewCard(review)
                         .review-icon-tooltip(data-tooltip="Delete Review")
                             svg.review__delete.iconDef.iconDelete(data-micromodal-trigger="deleteReview-modal")
                                 use(xlink:href='/img/icons/icons.svg#icon-trash-2')
-                    if is_reviewPage && review.tour.slug
+
+                    if is_reviewPage && review.tour && review.tour.slug
                         .review-edit-icon
                             .review-icon-tooltip(data-tooltip="See Tour Details")
                                 a(href=`/tour/${review.tour.slug}`)
                                     svg.review__edit.iconDef
                                         use(xlink:href='/img/icons/icons.svg#icon-external-link')
     
-            img.reviews__avatar-img(src=`/img/users/${review.user ? review.user.photo : 'default.jpg'}`, alt=`${review.user ? review.user.name : 'User'}`)
+            img.reviews__avatar-img(
+                src=`/img/users/${review.user ? review.user.photo : 'default.jpg'}`,
+                alt=`${review.user ? review.user.name : 'User'}`
+            )
             h6.reviews__user #{review.user ? review.user.name : 'Anonymous'}
         p.reviews__text #{review.review || 'No review provided.'}
+        
         .reviews__rating
             each star in [1, 2, 3, 4, 5]
                 svg.reviews__star.iconDef(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
